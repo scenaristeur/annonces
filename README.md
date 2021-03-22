@@ -1,5 +1,7 @@
 # template for Vuejs / Solid apps
-- inrupt/solid-client-authn-js
+- inrupt/solid-client-authn-js / https://solid.github.io/developers/tutorials/getting-started
+
+https://docs.inrupt.com/developer-tools/javascript/client-libraries/tutorial/getting-started/
 
 # Changes after fork portfolio templates
 - ``` npm outdated``` check outdated
