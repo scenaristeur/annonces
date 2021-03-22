@@ -32,18 +32,27 @@ const actions = {
     if(storage != null){
       try{
         let path = storage+context.state.path
-
-if (!await fc.itemExists(path)){
-  await fc.createFolder(path)
-}
-
-
-
+        if (!await fc.itemExists(path)){
+          await fc.createFolder(path)
+        }
         let folder = await fc.readFolder(path)
         console.log(folder)
+        let annonces = []
+
+        for await (const f of folder.files) {
+          annonces.push(JSON.parse(await fc.readFile(f.url)))
+        }
+        //  await folder.files.map( function(x) {
+        //   let f =  fc.readFile(x.url)
+        //   return `${f}`
+        // })
+        console.log(annonces)
+context.state.annonces = annonces
       }catch(e){
         alert(e)
       }
+    }else{
+      context.state.annonces = []
     }
   }
 
