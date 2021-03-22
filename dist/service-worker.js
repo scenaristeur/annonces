@@ -14,10 +14,10 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/portfolio/precache-manifest.f2868f0298167d043c0e2db28b96c983.js"
+  "/bon-prix/precache-manifest.bac67e75c5b1aca162777bb7757be1d0.js"
 );
 
-workbox.core.setCacheNameDetails({prefix: "portfolio"});
+workbox.core.setCacheNameDetails({prefix: "bon-prix"});
 
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
