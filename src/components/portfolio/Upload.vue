@@ -1,5 +1,7 @@
 <template>
   <div class="container">
+
+    images : {{ images }}
     <b-form-file multiple
     accept="image/*"
     v-model="files"
@@ -23,6 +25,7 @@ import watermark from 'watermarkjs'
 
 export default {
   name: 'Upload',
+  props: ['images'],
   data() {
     return {
       files: null
@@ -41,10 +44,13 @@ export default {
         .then(img => {
           img.name = f.name
           img.type = f.type
+          img.width = "250"
+          img.height = "250"
           preview.appendChild(img)});
         })
       },
       async send(){
+        let app = this
         let preview = this.$refs.preview
         let dataURLtoFile = this.dataURLtoFile
         var images = [].slice.call(preview.children);
@@ -54,12 +60,15 @@ export default {
         console.log(path)
         try{
           await images.forEach(async function(i)  {
-            let uri = path+i.name
-            console.log(encodeURI(uri))
+            let uri = encodeURI(path+i.name)
+            console.log(uri)
+            !app.images.includes(uri) ? app.images.push(uri): ""
             var file = dataURLtoFile(i.src,i.name);
-            await fc.createFile(encodeURI(uri), file, i.type)
+            await fc.createFile(uri, file, i.type)
           })
           alert(images.length+" fichiers sauvegardés")
+          this.$emit('imagesUploaded',app.images)
+
         }catch(e){
           alert(e)
         }

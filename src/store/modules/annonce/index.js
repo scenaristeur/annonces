@@ -17,7 +17,11 @@ const actions = {
   async update(context, a){
     let storage = context.rootState.solid.storage;
     if(storage != null){
-      a.url = storage+context.state.path+a.id+'.json'//+'.json'
+      a.url = storage+context.state.path+a.id+'.json'
+      a.created == undefined ? a.created = new Date() : ""
+      a.modified == undefined ? a.modified = [new Date()] : a.modified.push(new Date())
+      a.creator = context.rootState.solid.webId;
+
       console.log(a)
       try{
         await fc.createFile(encodeURI(a.url), JSON.stringify(a), 'application/json')
@@ -27,6 +31,22 @@ const actions = {
       }
     }
   },
+
+async delete(context,id){
+  let storage = context.rootState.solid.storage;
+  if(storage != null){
+    let url = storage+context.state.path+id+'.json'
+    try{
+      await fc.deleteFile(encodeURI(url))
+      context.commit('delete', id)
+    }catch(e){
+      alert(e)
+    }
+  }
+},
+
+
+
   async init(context){
     let storage = context.rootState.solid.storage;
     if(storage != null){
@@ -47,7 +67,7 @@ const actions = {
         //   return `${f}`
         // })
         console.log(annonces)
-context.state.annonces = annonces
+        context.state.annonces = annonces
       }catch(e){
         alert(e)
       }

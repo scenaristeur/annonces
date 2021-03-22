@@ -12,6 +12,9 @@
           <span>{{annonce.title}}</span>
         </div>
         <div>
+          {{annonce.price}} {{annonce.currency}}
+        </div>
+        <div>
           <b-button variant="light" @click="edit(annonce)" style="margin-left:auto;" v-b-modal.modal-center>
             <b-icon icon="pen"></b-icon>
           </b-button>
@@ -53,7 +56,7 @@ export default {
     },
     onDelete(){
       console.log("delete")
-      this.$store.commit('annonce/delete', this.idToDelete)
+      this.$store.dispatch('annonce/delete', this.idToDelete)
     }
   },
   watch:{
