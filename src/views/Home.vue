@@ -1,10 +1,10 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
+    <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
     <SolidLoginButton />
-    <SolidFetchTest />
-    <Upload />
-    <HelloWorld msg="Welcome to Portfolio WebApp based on Solid Specifications"/>
+    <SolidSession />
+    <!-- <Upload /> -->
+    <HelloWorld msg="Welcome to Vue2/Solid Boilerplate based on Solid Specifications"/>
   </div>
 </template>
 
@@ -17,9 +17,8 @@ export default {
   components: {
     HelloWorld,
     'SolidLoginButton': () => import('@/components/solid/SolidLoginButton'),
-    'SolidFetchTest': () => import('@/components/solid/SolidFetchTest'),
-
-    'Upload': () => import('@/components/portfolio/Upload'),
+    'SolidSession': () => import('@/components/solid/SolidSession'),
+  //  'Upload': () => import('@/components/portfolio/Upload'),
   },
 }
 </script>
