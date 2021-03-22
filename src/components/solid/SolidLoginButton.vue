@@ -1,39 +1,38 @@
 <template>
   <div>
-    <b-dropdown variant="success" v-if="webId == null" text="Login">
-      <b-dropdown-item v-for="issuer in issuers" :key="issuer" @click="login" :issuer="issuer">{{ issuer }}</b-dropdown-item>
-    </b-dropdown>
+    <b-button variant="success" v-if="webId == null" @click="login">Login</b-button>
     <b-button variant="danger" v-else @click="logout">Logout</b-button>
   </div>
 </template>
 
 <script>
+import auth from 'solid-auth-client';
 
 export default {
   name: 'SolidLoginButton',
-  data() {
+  data: function () {
     return {
-      issuers: [
-        "https://inrupt.net",
-        "https://broker.pod.inrupt.com",
-        "https://solidcommunity.net",
-      ]
+    //  webId: null
     }
   },
   computed:{
-    webId() {
-      return this.$store.state.solid.webId
+    webId: {
+      get () { return this.$store.state.solid.webId},
+      set (webId) { this.$store.dispatch('solid/setWebId', webId) }
     }
   },
   methods: {
-    async login(e) {
-      console.log(e.target.getAttribute('issuer'))
-      console.log(e,e.target, e.target.value)
-
-      this.$store.dispatch('solid/login', e.target.getAttribute('issuer'))
+    async login() {
+      let session = await auth.currentSession();
+      let popupUri = 'https://solidcommunity.net/common/popup.html';
+      if (!session){
+        session = await auth.popupLogin({ popupUri });
+      }
+      this.webId = session.webId
     },
     async logout(){
-      this.$store.dispatch('solid/logout')
+      await  auth.logout()
+      this.webId = null
     },
   }
 }

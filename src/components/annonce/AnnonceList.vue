@@ -56,7 +56,18 @@ export default {
       this.$store.commit('annonce/delete', this.idToDelete)
     }
   },
+  watch:{
+    storage(){
+      if (this.storage != null){
+        this.$store.dispatch('annonce/init')
+      }
+
+    }
+  },
   computed:{
+    storage(){
+      return this.$store.state.solid.storage
+    },
     annonces() {
       return this.$store.state.annonce.annonces
     }

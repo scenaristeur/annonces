@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <h3>Add an Annonce</h3>
-    <b-input placeholder="title" v-model="annonce.title" :state="getState()" />
+    <b-input placeholder="title" v-model="annonce.title" :state="getState()" autofocus />
     <b-input placeholder="category" v-model="annonce.category" />
     <div class="d-flex">
       <b-button class="ml-auto" variant="primary" @click="add()">save</b-button>
@@ -29,7 +29,7 @@ export default {
   methods: {
     add() {
       console.log(this.annonce)
-      this.$store.commit('annonce/update', this.annonce)
+      this.$store.dispatch('annonce/update', this.annonce)
       this.$router.go(-1)
     },
     goBack(){

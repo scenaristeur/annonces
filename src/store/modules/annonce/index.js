@@ -1,22 +1,12 @@
 // let ldflex = window.solid
-// import { /*handleIncomingRedirect,*/ login, fetch, getDefaultSession,/* onSessionRestore*/ } from '@inrupt/solid-client-authn-browser'
-//
-// import { WS } from "@inrupt/vocab-solid-common";
-// import { FOAF, SCHEMA_INRUPT_EXT, VCARD } from "@inrupt/vocab-common-rdf";
-//
-// import {
-//   getSolidDataset,
-//   getThing,
-//   getStringNoLocale,
-//   getUrl,
-//   getUrlAll,
-//   /* saveSolidDatasetAt */
-// } from "@inrupt/solid-client";
-//
 
+import auth from 'solid-auth-client';
+import FC from 'solid-file-client'
+const fc = new FC( auth )
 
 const state = () => ({
-  annonces: []
+  annonces: [],
+  path: "public/annonces/"
 })
 
 // getters
@@ -24,6 +14,39 @@ const getters = {}
 
 // actions
 const actions = {
+  async update(context, a){
+    let storage = context.rootState.solid.storage;
+    if(storage != null){
+      a.url = storage+context.state.path+a.id+'.json'//+'.json'
+      console.log(a)
+      try{
+        await fc.createFile(encodeURI(a.url), JSON.stringify(a), 'application/json')
+        context.commit('update', a)
+      }catch(e){
+        alert(e)
+      }
+    }
+  },
+  async init(context){
+    let storage = context.rootState.solid.storage;
+    if(storage != null){
+      try{
+        let path = storage+context.state.path
+
+if (!await fc.itemExists(path)){
+  await fc.createFolder(path)
+}
+
+
+
+        let folder = await fc.readFolder(path)
+        console.log(folder)
+      }catch(e){
+        alert(e)
+      }
+    }
+  }
+
   // async login(context, issuer){
   //   console.log(context, issuer)
   //   if (!getDefaultSession().info.isLoggedIn) {
@@ -123,11 +146,12 @@ const actions = {
 const mutations = {
   update(state, a){
     let idx = state.annonces.findIndex(x => x.id === a.id)
-     if (idx === -1) {
-         state.annonces.push(a)
-     } else {
-         Object.assign(state.annonces[idx], a)
-     }
+    if (idx === -1) {
+      state.annonces.push(a)
+    } else {
+      Object.assign(state.annonces[idx], a)
+    }
+    // console.log(commit)
   },
   delete(state, id){
     state.annonces = state.annonces.filter(x => x.id != id)

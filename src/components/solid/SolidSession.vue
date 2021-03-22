@@ -1,44 +1,31 @@
 <template>
-  <div>
-    <div v-if='webId != null'>
-      <small>logged as {{ webId }}</small>
-    </div>
+  <div v-if="webId != null">
+    <i><small>Logged as : <a v-bind:href="webId" target="_blank">{{ user }}</a></small></i>
   </div>
 </template>
 
 <script>
-
-import { handleIncomingRedirect, /*login, fetch, getDefaultSession,*/ onSessionRestore } from '@inrupt/solid-client-authn-browser'
+import auth from 'solid-auth-client';
 
 export default {
-  name: "SolidSession",
-  data() {
+  name: 'SolidSession',
+  data: function () {
     return {
-      //  webId: null
+      webId: null,
+      user: null
     }
   },
-  async created(){
-    await  handleIncomingRedirect({
-      restorePreviousSession: true
-    }).then((info) => {
-      console.log(`Logged in with WebID [${info.webId}]`)
-      this.webId = info.webId
-
+  created(){
+    auth.trackSession(async session => {
+      if (!session){
+        this.webId = null
+        this.user = null
+      } else{
+        this.webId = session.webId
+        this.user = session.webId.split('/').slice(2,3)[0]
+      }
+      this.$store.dispatch('solid/setWebId', this.webId)
     })
-    onSessionRestore((url) => {
-      console.log(url)
-    });
-    //this.checkSession()
-  },
-  computed:{
-    webId: {
-      get () { return this.$store.state.solid.webId},
-      set (webId) { this.$store.dispatch('solid/webId', webId) }
-    }
   },
 }
 </script>
-
-<style>
-
-</style>
