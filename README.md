@@ -4,7 +4,7 @@
 # Changes after fork portfolio templates
 - ``` npm outdated``` check outdated
 - and choose : npm install / npm update / remove package-lock.json and node_modules, then install
-- change vue.config.je with appropriate publicPath, name in package.json
+- change vue.config.je with appropriate publicPath, name in package.json, link in About component
 - gh-pages redirection, 404
 - then develop with ``` npm run serve ``` -> http://localhost:8080
 - and build/send to gh-pages with ````npm run git -- "commit message" ```

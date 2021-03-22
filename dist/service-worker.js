@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/bon-prix/precache-manifest.bac67e75c5b1aca162777bb7757be1d0.js"
+  "/bon-prix/precache-manifest.f0a13f6bca6687ea25e06d7f70b8d847.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "bon-prix"});

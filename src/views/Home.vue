@@ -2,6 +2,7 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
     <SolidLoginButton />
+    <SolidFetchTest />
     <Upload />
     <HelloWorld msg="Welcome to Portfolio WebApp based on Solid Specifications"/>
   </div>
@@ -16,6 +17,8 @@ export default {
   components: {
     HelloWorld,
     'SolidLoginButton': () => import('@/components/solid/SolidLoginButton'),
+    'SolidFetchTest': () => import('@/components/solid/SolidFetchTest'),
+
     'Upload': () => import('@/components/portfolio/Upload'),
   },
 }
