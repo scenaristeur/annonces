@@ -1,8 +1,11 @@
 <template>
   <div class="home">
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
-    <SolidLoginButton />
-    <SolidSession />
+
+    <AnnonceList />
+
+
+
     <!-- <Upload /> -->
     <HelloWorld msg="Welcome to Vue2/Solid Boilerplate based on Solid Specifications"/>
   </div>
@@ -16,9 +19,9 @@ export default {
   name: 'Home',
   components: {
     HelloWorld,
-    'SolidLoginButton': () => import('@/components/solid/SolidLoginButton'),
-    'SolidSession': () => import('@/components/solid/SolidSession'),
-  //  'Upload': () => import('@/components/portfolio/Upload'),
+
+    'AnnonceList': () => import('@/components/annonce/AnnonceList'),
+    //  'Upload': () => import('@/components/portfolio/Upload'),
   },
 }
 </script>
