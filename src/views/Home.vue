@@ -2,7 +2,7 @@
   <div class="home">
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
 
-    <AnnonceList />
+    <AnnonceAgora />
 
 
 
@@ -20,7 +20,7 @@ export default {
   components: {
     HelloWorld,
 
-    'AnnonceList': () => import('@/components/annonce/AnnonceList'),
+    'AnnonceAgora': () => import('@/components/annonce/AnnonceAgora'),
     //  'Upload': () => import('@/components/portfolio/Upload'),
   },
 }

@@ -41,6 +41,10 @@ export default {
   },
   methods: {
     add() {
+      if (this.annonce.title.length < 1){
+        alert("Title must not be empty !")
+        return
+      }
       console.log(this.annonce)
       this.$store.dispatch('annonce/update', this.annonce)
       this.$router.go(-1)

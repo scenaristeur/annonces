@@ -1,12 +1,16 @@
-// let ldflex = window.solid
+
 
 import auth from 'solid-auth-client';
 import FC from 'solid-file-client'
 const fc = new FC( auth )
+import { Notif } from '@/components/annonce/Notif.js'
+
+
 
 const state = () => ({
   annonces: [],
-  path: "public/annonces/"
+  path: "public/annonces/",
+  agora_url:"https://agora.solidcommunity.net/public/Annonce/annonces/"
 })
 
 // getters
@@ -18,7 +22,7 @@ const actions = {
     let storage = context.rootState.solid.storage;
     if(storage != null){
       a.url = storage+context.state.path+a.id+'.json'
-      a.created == undefined ? a.created = new Date() : ""
+      a.created == undefined ? a.created = new Date().toISOString() : ""
       a.modified == undefined ? a.modified = [new Date()] : a.modified.push(new Date())
       a.creator = context.rootState.solid.webId;
 
@@ -26,24 +30,27 @@ const actions = {
       try{
         await fc.createFile(encodeURI(a.url), JSON.stringify(a), 'application/json')
         context.commit('update', a)
+        let notif = new Notif(context.state.agora_url, a)
+        console.log(notif)
+
       }catch(e){
         alert(e)
       }
     }
   },
 
-async delete(context,id){
-  let storage = context.rootState.solid.storage;
-  if(storage != null){
-    let url = storage+context.state.path+id+'.json'
-    try{
-      await fc.deleteFile(encodeURI(url))
-      context.commit('delete', id)
-    }catch(e){
-      alert(e)
+  async delete(context,id){
+    let storage = context.rootState.solid.storage;
+    if(storage != null){
+      let url = storage+context.state.path+id+'.json'
+      try{
+        await fc.deleteFile(encodeURI(url))
+        context.commit('delete', id)
+      }catch(e){
+        alert(e)
+      }
     }
-  }
-},
+  },
 
 
 
@@ -184,6 +191,9 @@ const mutations = {
   },
   delete(state, id){
     state.annonces = state.annonces.filter(x => x.id != id)
+  },
+  setAgoraUrl(state, url){
+    state.agora_url = url
   }
 }
 

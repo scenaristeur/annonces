@@ -45,6 +45,9 @@ export default {
       deleteMessage: ""
     }
   },
+  created(){
+    this.init()
+  },
   methods: {
     edit(a) {
       //this.$router.push('/add')
@@ -57,13 +60,17 @@ export default {
     onDelete(){
       console.log("delete")
       this.$store.dispatch('annonce/delete', this.idToDelete)
-    }
-  },
-  watch:{
-    storage(){
+    },
+    init(){
       if (this.storage != null){
         this.$store.dispatch('annonce/init')
       }
+    }
+
+  },
+  watch:{
+    storage(){
+      this.init()
 
     }
   },
