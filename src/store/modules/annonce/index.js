@@ -1,11 +1,7 @@
-
-
 import auth from 'solid-auth-client';
 import FC from 'solid-file-client'
 const fc = new FC( auth )
 import { Notif } from '@/components/annonce/Notif.js'
-
-
 
 const state = () => ({
   annonces: [],

@@ -9,12 +9,20 @@
       </b-input-group-append>
     </b-input-group>
     Agora's Annonces
-    <b-list-group>
+
+ <b-card-group columns>
+<AnnonceLine :annonce="a" v-for="a in annonces" :key="a.url" />
+
+ </b-card-group>
+
+
+    <!-- <b-list-group>
       <b-list-group-item button v-for="a in annonces" :key="a.url">
         <AnnonceLine :annonce="a" />
       </b-list-group-item>
 
-    </b-list-group>
+
+    </b-list-group> -->
 
   </div>
 </template>
