@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <b-button variant="success" v-if="webId == null" @click="login">Login</b-button>
-    <b-button variant="danger" v-else @click="logout">Logout</b-button>
-  </div>
+  <span>
+    <b-button variant="success" v-if="webId == null" @click="login" size="sm">Login</b-button>
+    <b-button variant="danger" v-else @click="logout" size="sm">Logout</b-button>
+  </span>
 </template>
 
 <script>

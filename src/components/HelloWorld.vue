@@ -1,13 +1,9 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-
-
     <p>
       <a href="https://github.com/scenaristeur/bon-prix" target="_blank"> Source code, tuto, issues</a>
     </p>
-
-
     <h3>Solid Vue2 Boilerplate</h3>
 
 

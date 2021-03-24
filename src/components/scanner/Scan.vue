@@ -11,6 +11,7 @@
 </template>
 
 <script>
+// https://openbase.com/categories/js/best-nodejs-ocr-libraries?orderBy=RECOMMENDED&
 // alternative https://antimatter15.com/ocrad.js/demo.html
 // https://github.com/naptha/tesseract.js/tree/develop
 // npm install tesseract.js@next --save -->
@@ -23,7 +24,7 @@
 //
 // found 1 high severity vulnerability
 //   run `npm audit fix` to fix them, or `npm audit` for details
-// npm audit fix -> 2.1.4 but error 
+// npm audit fix -> 2.1.4 but error
 
 
 import Tesseract from 'tesseract.js';

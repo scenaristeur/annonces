@@ -4,32 +4,32 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bon-prix/404.html"
   },
   {
-    "revision": "c41155b35ef5bd45a239",
-    "url": "/bon-prix/css/app.be22d1ed.css"
+    "revision": "7303ce53ad5eacc3c893",
+    "url": "/bon-prix/css/app.9855fda9.css"
   },
   {
     "revision": "ff041155c7e11f50b73e",
     "url": "/bon-prix/css/chunk-vendors.55204a1e.css"
   },
   {
-    "revision": "1d14e71ff312af60e0277f7599dd3fd7",
+    "revision": "e02bead098ccd1e6886984c6df1b1cf1",
     "url": "/bon-prix/index.html"
   },
   {
-    "revision": "9fa3a546ba14a99bffac",
-    "url": "/bon-prix/js/about.f1f92b78.js"
+    "revision": "6badaafda1b360c49016",
+    "url": "/bon-prix/js/about.f11ef079.js"
   },
   {
     "revision": "f56f1e27075276dc797f",
     "url": "/bon-prix/js/annonceEdit.31f5ed78.js"
   },
   {
-    "revision": "dd5486c9db8686e724b0",
-    "url": "/bon-prix/js/annonceList.9b16f384.js"
+    "revision": "a672ccba616ea9676420",
+    "url": "/bon-prix/js/annonceList.538a790d.js"
   },
   {
-    "revision": "c41155b35ef5bd45a239",
-    "url": "/bon-prix/js/app.1fa5272f.js"
+    "revision": "7303ce53ad5eacc3c893",
+    "url": "/bon-prix/js/app.647029c3.js"
   },
   {
     "revision": "0c742bbe25604b96ceca",
@@ -40,8 +40,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bon-prix/js/chunk-2d0ba146.343caa9c.js"
   },
   {
-    "revision": "25ede44f52aeb9ee43e7",
-    "url": "/bon-prix/js/chunk-2d226c5a.d90da5fb.js"
+    "revision": "b0b298fcb42bab859b43",
+    "url": "/bon-prix/js/chunk-2d226c5a.e0276e6b.js"
   },
   {
     "revision": "ee0ed86dfd500e03d624",
@@ -60,8 +60,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bon-prix/js/chunk-vendors.23b71cb4.js"
   },
   {
-    "revision": "dc02acb280d8bb784bce",
-    "url": "/bon-prix/js/scan.a17d51d3.js"
+    "revision": "a8ad0a22394d4aabaf35",
+    "url": "/bon-prix/js/scan.f3a87ef5.js"
   },
   {
     "revision": "94e919648d74d1169167d029c517eb07",
