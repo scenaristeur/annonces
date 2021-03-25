@@ -46,6 +46,32 @@ export default {
       if (this.webId != null){
         let inboxFolder = await ldflex.data.from(this.webId)[this.webId]['http://www.w3.org/ns/ldp#inbox']
         let inboxAnnonce = `${inboxFolder}`+"annonces/"
+        if( !(await fc.itemExists(inboxAnnonce)) ) {
+          await fc.createFolder(inboxAnnonce) // only create if it doesn't already exist
+        }
+
+        let aclObject = await fc.aclUrlParser(inboxAnnonce)
+        console.log("inherit acl",aclObject)
+        let aclContent = await fc.acl.createContent(inboxAnnonce, aclObject/*, options*/)
+        console.log(aclContent)
+
+        // add an other rule
+        let   aclUsers = await fc.acl.addUserMode({}, [{ agent: this.webId }], ['Read', 'Write', 'Control'], ['accessTo'])
+        aclUsers = await fc.acl.addUserMode(aclUsers, [{ agentClass: 'AuthenticatedAgent' }], ['Append', 'Read'], ['accessTo'])
+        //  aclUsers = await fc.acl.addUserMode(aclUsers, [{ agent: 'https://example.solid.community/profile/card#me' }], ['Read', 'Write', 'Control'], ['accessTo'])
+
+        //  let aclUsers = await fc.acl.addUserMode({}, [{ agentClass: 'AuthenticatedAgent'}], ['Read', 'Write'])
+        const aclContentNew = await fc.acl.createContent(inboxAnnonce, aclUsers)
+        console.log('build an aclContent ' + aclContentNew)
+
+        const { acl: aclUrl } = await fc.getItemLinks(inboxAnnonce, { links: 'include_possible'})
+        //    const links = await fc.getItemLinks(inboxAnnonce, { links: 'include_possible'})
+
+        //  console.log(links)
+        let result = await fc.putFile(aclUrl, aclContentNew, 'text/turtle')
+        console.log("result",result)
+
+
         let folder = await fc.readFolder(inboxAnnonce)
         console.log(folder)
         let files = folder.files.sort((a,b) => new Date(b.created).getTime() - new Date(a.created).getTime());
