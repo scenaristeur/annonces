@@ -4,7 +4,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bon-prix/404.html"
   },
   {
-    "revision": "f6cf99ce54ff35592288",
+    "revision": "196311346412fbef9d0e",
     "url": "/bon-prix/css/app.9855fda9.css"
   },
   {
@@ -12,7 +12,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bon-prix/css/chunk-vendors.55204a1e.css"
   },
   {
-    "revision": "040b8ce054de0e2b8f283ce4c40823f8",
+    "revision": "f2715c0b01ee5de74688",
+    "url": "/bon-prix/css/scan.6ba6101a.css"
+  },
+  {
+    "revision": "9e64e9b20759a7d48c3c940890e04197",
     "url": "/bon-prix/index.html"
   },
   {
@@ -20,20 +24,20 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bon-prix/js/about.b16b5e3f.js"
   },
   {
-    "revision": "2f291af2bc2c1e86edec",
-    "url": "/bon-prix/js/annonceEdit.d8d88fd7.js"
+    "revision": "0e87bdd311c6d2368c29",
+    "url": "/bon-prix/js/annonceEdit.63638240.js"
   },
   {
     "revision": "ff3429e630a7192e5394",
     "url": "/bon-prix/js/annonceList.9a267d07.js"
   },
   {
-    "revision": "f6cf99ce54ff35592288",
-    "url": "/bon-prix/js/app.c97d0974.js"
+    "revision": "196311346412fbef9d0e",
+    "url": "/bon-prix/js/app.4192493e.js"
   },
   {
-    "revision": "0c742bbe25604b96ceca",
-    "url": "/bon-prix/js/chunk-16bfeb9e.1ab5a9e7.js"
+    "revision": "c07647eb07e62bf737ea",
+    "url": "/bon-prix/js/chunk-22227963.48244716.js"
   },
   {
     "revision": "e4819e11b0a0c9a1dedd",
@@ -52,12 +56,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bon-prix/js/chunk-2d2315f6.e45adad4.js"
   },
   {
-    "revision": "580fae5a8229c1170cf8",
-    "url": "/bon-prix/js/chunk-37c236e1.703bcea6.js"
-  },
-  {
     "revision": "b983c0d0e189ded6f8be",
     "url": "/bon-prix/js/chunk-7e121fa4.ca039d92.js"
+  },
+  {
+    "revision": "2befa7dbd2ce68585e13",
+    "url": "/bon-prix/js/chunk-af9b5226.ab80b3e4.js"
   },
   {
     "revision": "ff041155c7e11f50b73e",
@@ -68,8 +72,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bon-prix/js/detail.031b2532.js"
   },
   {
-    "revision": "f38936128aebf7228759",
-    "url": "/bon-prix/js/scan.1dffe3a6.js"
+    "revision": "f2715c0b01ee5de74688",
+    "url": "/bon-prix/js/scan.2e7a8e13.js"
   },
   {
     "revision": "94e919648d74d1169167d029c517eb07",
