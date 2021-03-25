@@ -43,6 +43,45 @@ export default {
   },
   methods: {
     async readInbox() {
+
+
+      // @prefix : <#>.
+      // @prefix acl: <http://www.w3.org/ns/auth/acl#>.
+      // @prefix foaf: <http://xmlns.com/foaf/0.1/>.
+      // @prefix target: <./>.
+      //
+      // :ReadAppend
+      //     a acl:Authorization;
+      //     acl:accessTo target:;
+      //     acl:agentClass acl:AuthenticatedAgent;
+      //     acl:mode acl:Read, acl:Append.
+      //
+      // :ReadWriteControl
+      //     a acl:Authorization;
+      //     acl:accessTo target:;
+      //     acl:default target:;
+      //     acl:agent </profile/card#me>;
+      //     acl:agent <https://bourgeoa.solidcommunity.net/profile/card#me>;
+      //     acl:mode acl:Read, acl:Write, acl:Control.
+
+      //       @prefix : <#>.
+      // @prefix acl: <http://www.w3.org/ns/auth/acl#>.
+      // @prefix foaf: <http://xmlns.com/foaf/0.1/>.
+      // @prefix target: <./>.
+      //
+      // :ReadAppend
+      //     a acl:Authorization;
+      //     acl:accessTo target:;
+      //     acl:agentClass acl:AuthenticatedAgent;
+      //     acl:mode acl:Read, acl:Append.
+      //
+      // :ReadWriteControl
+      //     a acl:Authorization;
+      //     acl:accessTo target:;
+      //     acl:agent </profile/card#me>;
+      //     acl:mode acl:Read, acl:Write, acl:Control.
+
+
       if (this.webId != null){
         let inboxFolder = await ldflex.data.from(this.webId)[this.webId]['http://www.w3.org/ns/ldp#inbox']
         let inboxAnnonce = `${inboxFolder}`+"annonces/"
@@ -56,9 +95,12 @@ export default {
         console.log(aclContent)
 
         // add an other rule
-        let   aclUsers = await fc.acl.addUserMode({}, [{ agent: this.webId }], ['Read', 'Write', 'Control'], ['accessTo'])
-        aclUsers = await fc.acl.addUserMode(aclUsers, [{ agentClass: 'AuthenticatedAgent' }], ['Append', 'Read'], ['accessTo'])
-        //  aclUsers = await fc.acl.addUserMode(aclUsers, [{ agent: 'https://example.solid.community/profile/card#me' }], ['Read', 'Write', 'Control'], ['accessTo'])
+        let   aclUsers = await fc.acl.addUserMode({}, [{ agent: this.webId }], ['Read', 'Write', 'Control'], ['accessTo', 'default'])
+        aclUsers = await fc.acl.addUserMode(aclUsers, [{ agentClass: 'AuthenticatedAgent' }], ['Append'], ['default'])
+        aclUsers = await fc.acl.addUserMode(aclUsers, [{ agentClass: 'Agent' }], ['Append', 'Read'], ['accessTo'])
+
+        //      aclUsers = await fc.acl.addUserMode(aclUsers, [{ agent: 'https://bourgeoa.solidcommunity.net/profile/card#me' }], ['Read', 'Write', 'Control'], ['accessTo', 'default'])
+
 
         //  let aclUsers = await fc.acl.addUserMode({}, [{ agentClass: 'AuthenticatedAgent'}], ['Read', 'Write'])
         const aclContentNew = await fc.acl.createContent(inboxAnnonce, aclUsers)

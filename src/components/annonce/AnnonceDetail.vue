@@ -108,8 +108,13 @@ export default {
       console.log(this.message)
       console.log(this.inboxAnnonce)
       let file = this.inboxAnnonce+uuidv4()+".json"
+
+
+      // let aclObject = await fc.aclUrlParser(this.inboxAnnonce)
+      // console.log("inherit acl",aclObject)
+
       try{
-        await fc.createFile(file, JSON.stringify(this.message), "application/json")
+        await fc.postFile(file, JSON.stringify(this.message), "application/json")
         alert("Message send to "+this.message.annonce.creator)
       }catch(e){
         alert("Sorry but i can not send message, "+e)
