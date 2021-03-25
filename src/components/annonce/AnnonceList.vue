@@ -1,6 +1,11 @@
 <template>
   <b-container>
     <div v-if="webId != null">
+
+<AnnonceInbox />
+
+
+
       <div class="d-flex">
         <b-button variant="primary" class="ml-auto" @click="edit">add</b-button>
       </div>
@@ -16,7 +21,7 @@
             {{annonce.price}} {{annonce.currency}}
           </div>
           <div>
-            <b-button variant="light" @click="edit(annonce)" style="margin-left:auto;" v-b-modal.modal-center>
+            <b-button variant="light" @click="edit(annonce)" style="margin-left:auto;">
               <b-icon icon="pen"></b-icon>
             </b-button>
             <b-button variant="danger" @click="showDeleteConfirm(annonce)" style="margin-left:auto;" v-b-modal.modal-center>
@@ -44,6 +49,9 @@
 <script>
 export default {
   name: "AnnonceList",
+  components: {
+    'AnnonceInbox': () => import('@/components/annonce/AnnonceInbox'),
+  },
   data(){
     return{
       deleteMessage: "",

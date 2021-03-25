@@ -1,22 +1,28 @@
 <template>
   <b-container>
-    <h3>Add an Annonce</h3>
-    <b-input placeholder="title" v-model="annonce.title" :state="getState()" autofocus />
-    <b-input placeholder="category" v-model="annonce.category" />
-    <b-textarea placeholder="description" v-model="annonce.description" />
-    <b-input placeholder="price" v-model="annonce.price" />
-    <b-input placeholder="currency (€,$...)" v-model="annonce.currency" />
+    <div v-if="webId != null">
+      <h3>Add an Annonce</h3>
+      <b-input placeholder="title" v-model="annonce.title" :state="getState()" autofocus />
+      <b-input placeholder="category" v-model="annonce.category" />
+      <b-textarea placeholder="description" v-model="annonce.description" />
+      <b-input placeholder="price" v-model="annonce.price" />
+      <b-input placeholder="currency (€,$...)" v-model="annonce.currency" />
 
-    <b-button variant="light" @click="addField()" style="margin-left:auto;">
+      <!-- <b-button variant="light" @click="addField()" style="margin-left:auto;">
       <b-icon icon="plus"></b-icon>
-    </b-button>
+    </b-button> -->
 
     <Upload :images="annonce.images" @imagesUploaded="imagesUploaded"/>
     <div class="d-flex">
+      if you have added images, don't forget to hit the "send" button before hitting the "save" one.
       <b-button class="ml-auto" variant="primary" @click="add()">save</b-button>
       <b-button class="ml-2" variant="outline-secondary" @click="goBack()">back</b-button>
     </div>
-  </b-container>
+  </div>
+  <div v-else>
+    You must login to manage your annonces.
+  </div>
+</b-container>
 </template>
 
 <script>
@@ -63,7 +69,10 @@ export default {
   computed:{
     annonces() {
       return this.$store.state.annonce.annonces
-    }
+    },
+    webId() {
+      return this.$store.state.solid.webId
+    },
   },
 }
 </script>

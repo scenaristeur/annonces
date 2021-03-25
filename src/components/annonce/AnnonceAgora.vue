@@ -10,21 +10,21 @@
     </b-input-group>
     Agora's Annonces
 
- <b-card-group columns>
-<AnnonceLine :annonce="a" v-for="a in annonces" :key="a.url" />
+    <b-card-group columns>
+      <AnnonceCard :annonce="a" v-for="a in annonces" :key="a.url" />
 
- </b-card-group>
+    </b-card-group>
 
 
     <!-- <b-list-group>
-      <b-list-group-item button v-for="a in annonces" :key="a.url">
-        <AnnonceLine :annonce="a" />
-      </b-list-group-item>
+    <b-list-group-item button v-for="a in annonces" :key="a.url">
+    <AnnonceLine :annonce="a" />
+  </b-list-group-item>
 
 
-    </b-list-group> -->
+</b-list-group> -->
 
-  </div>
+</div>
 </template>
 
 <script>
@@ -38,7 +38,7 @@ let ldflex = window.solid
 export default {
   name: "AnnonceAgora",
   components: {
-    'AnnonceLine': () => import('@/components/annonce/AnnonceLine'),
+    'AnnonceCard': () => import('@/components/annonce/AnnonceCard'),
   },
   data(){
     return {
@@ -62,7 +62,7 @@ export default {
 
       while (this.annonces.length < 100 && files.length > 0){
         let f = files.shift()
-        console.log(f)
+      //  console.log(f)
         let resource = f.url+"#this"
         for await (const annonce_url of ldflex.data[resource]['http://purl.org/dc/terms/hasPart']){
           let idx = this.annonces.findIndex(x => x.url === `${annonce_url}`)

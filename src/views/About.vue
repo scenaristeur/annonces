@@ -15,10 +15,20 @@
       </li>
       <li>
         Then a notification is send to <a href="https://agora.solidcommunity.net/public/Annonce/annonces/" target="_blank">
-          https://agora.solidcommunity.net/public/Annonce/annonces/</a> 
+          https://agora.solidcommunity.net/public/Annonce/annonces/</a>
+        </li>
+        <li>
+          When someone write you message about one of your annonce, it is stored in the /inbox/annonces/ folder of your POD.
+          So be sure to allow/grant "Authenticated Agent" as "Submitters".
+        </li>
+        <li>
+          For any question about Solid, PODs, Inbox, join the <a href="https://forum.solidproject.org/" target="_blank">Solid Community Forum</a>
+        </li>
+        <li>
+          For any question / issue about Bon-Prix use <a href="https://github.com/scenaristeur/bon-prix/" target="_blank">Github Repo</a>
         </li>
       </ul>
 
-      <a href="https://github.com/scenaristeur/bon-prix/" target="_blank">Source Code</a>
+
     </div>
   </template>
