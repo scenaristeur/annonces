@@ -62,3 +62,9 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### portfolio
 https://zurb.com/playground/css3-polaroids
+
+
+# tesseract
+
+"tesseract.js": "2.0.0-beta.2",
+error with   2.1.4 

@@ -3,14 +3,16 @@
     <div id="nav">
       <router-link to="/">Bon-Prix</router-link> |
       <router-link to="/my_annonces">My annonces</router-link> |
-      <!-- <router-link to="/scan">Scan</router-link> | -->
       <router-link to="/about">About</router-link> |
+
       <SolidLoginButton />
     </div>
     <b-container>
       <router-view/>
       <SolidSession />
     </b-container>
+
+    <router-link to="/scan"><small>Scan (experimental)</small></router-link>
   </div>
 </template>
 <script>
