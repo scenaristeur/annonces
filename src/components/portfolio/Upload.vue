@@ -1,7 +1,5 @@
 <template>
   <div class="container">
-
-    images : {{ images }}
     <b-form-file multiple
     accept="image/*"
     v-model="files"
@@ -12,8 +10,9 @@
     ></b-form-file>
 
     <div ref="preview"></div>
-    <b-button @click="send">Envoyer</b-button>
-
+    <b-button @click="send">Send</b-button>
+    <br>
+    <small>images : {{ images }}</small>
   </div>
 </template>
 
