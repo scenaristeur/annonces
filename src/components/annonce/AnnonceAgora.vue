@@ -5,9 +5,12 @@
       <b-input v-model="temp_url" />
       <b-input-group-append>
         <b-button variant="outline-success" @click="load">Load</b-button>
-
       </b-input-group-append>
     </b-input-group>
+
+    <AnnonceSearch />
+
+
     Agora's Annonces
 
     <b-card-group columns>
@@ -39,6 +42,7 @@ export default {
   name: "AnnonceAgora",
   components: {
     'AnnonceCard': () => import('@/components/annonce/AnnonceCard'),
+    'AnnonceSearch': () => import('@/components/annonce/AnnonceSearch'),
   },
   data(){
     return {
@@ -62,7 +66,7 @@ export default {
 
       while (this.annonces.length < 100 && files.length > 0){
         let f = files.shift()
-      //  console.log(f)
+        //  console.log(f)
         let resource = f.url+"#this"
         for await (const annonce_url of ldflex.data[resource]['http://purl.org/dc/terms/hasPart']){
           let idx = this.annonces.findIndex(x => x.url === `${annonce_url}`)

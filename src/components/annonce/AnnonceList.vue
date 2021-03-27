@@ -2,7 +2,7 @@
   <b-container>
     <div v-if="webId != null">
 
-<AnnonceInbox />
+      <AnnonceInbox />
 
 
 
