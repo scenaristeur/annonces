@@ -20,7 +20,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bon-prix/css/scan.6ba6101a.css"
   },
   {
-    "revision": "e1c3ce6ddbbc5496620f52b6d033f769",
+    "revision": "39df694fcccc1e1d7dbf0e4c049590e8",
     "url": "/bon-prix/index.html"
   },
   {
