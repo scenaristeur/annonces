@@ -8,15 +8,15 @@
       </b-input-group-append>
     </b-input-group>
 
-    <AnnonceSearch />
+
 
 
     Agora's Annonces
 
-    <b-card-group columns>
-      <AnnonceCard :annonce="a" v-for="a in annonces" :key="a.url" />
+    <!-- <TimeScroller start="03/02/2021" :root="this.temp_url" :step="step" extension="ttl" /> -->
+    <TimeLoader :root="this.temp_url" start="03/01/2021" />
 
-    </b-card-group>
+
 
 
     <!-- <b-list-group>
@@ -41,13 +41,14 @@ let ldflex = window.solid
 export default {
   name: "AnnonceAgora",
   components: {
-    'AnnonceCard': () => import('@/components/annonce/AnnonceCard'),
-    'AnnonceSearch': () => import('@/components/annonce/AnnonceSearch'),
+    //  'TimeScroller': () => import('@/components/layout/TimeScroller'),
+    'TimeLoader': () => import('@/components/layout/TimeLoader')
   },
   data(){
     return {
       temp_url: this.$store.state.annonce.agora_url,
-      annonces : []
+      annonces : [],
+      step: "month"
     }
   },
   created(){

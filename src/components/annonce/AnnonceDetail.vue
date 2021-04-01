@@ -10,7 +10,9 @@
     <b-card-title class="d-flex justify-content-between align-items-center">
 
       <span>{{a.title}}</span>
-      <b-badge variant="primary" pill class="mr-3">{{a.category}}</b-badge>
+      <b-card-sub-title >
+        <b-badge variant="primary"  v-for="(c, i) in a.category.split(',')" :key="i"  pill class="mr-3">{{c}}</b-badge>
+      </b-card-sub-title>
       <b-card-text>
         {{a.price}} {{a.currency}}
 
@@ -80,7 +82,7 @@ export default {
   name: "AnnonceDetail",
   data(){
     return {
-      a: {},
+      a: {category: ""},
       message: {},
       error : ""
     }

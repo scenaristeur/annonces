@@ -6,9 +6,9 @@
   style="max-width: 20rem;"
   class="mb-2"
   no-body
+  v-if="show"
   >
   <b-card-body>
-
     <b-card-img :src="a.image" top></b-card-img>
 
     <!-- <b-card-title>{{a.title}}</b-card-title> -->
@@ -22,11 +22,9 @@
     </b-link>
 
     <b-card-sub-title >
-      <b-badge variant="primary" pill class="mr-3">{{a.category}}</b-badge>
+      <b-badge variant="primary"  v-for="(c, i) in a.category.split(',')" :key="i"  pill class="mr-3">{{c}}</b-badge>
 
     </b-card-sub-title>
-
-
 
 
     <b-card-text>
@@ -79,16 +77,23 @@ const fc = new FC( auth )
 
 export default {
   name: "AnnonceCard",
-  props: ['annonce'],
+  props: ['annonce', 'search'],
   data(){
     return {
-      a: {}
+      a: {},
+      show : false
     }
   },
   async created(){
-    this.a = JSON.parse(await fc.readFile(this.annonce.url))
-    this.a.image = this.a.images[0] || "" //"https://picsum.photos/400/200/?image=41"
-    this.a.date = this.a.modified.pop() || this.a.created
+    let aText = await fc.readFile(this.annonce.url)
+    if (aText.includes(this.search)){
+      this.show = true
+      this.a = JSON.parse(aText)
+      this.a.image = this.a.images[0] || "" //"https://picsum.photos/400/200/?image=41"
+      this.a.date = this.a.modified.pop() || this.a.created
+    }else{
+      this.show = false
+    }
   },
   methods: {
     showDetails() {

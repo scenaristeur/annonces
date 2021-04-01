@@ -2,7 +2,7 @@
   <vue-bootstrap-typeahead
   v-model="category"
   :data="categories"
-  placeholder="Category, keyword, (or search)"
+  placeholder="Category"
   size="lg"
   @hit="run_query"
   />
@@ -34,7 +34,7 @@ export default {
       console.log(this.category_url)
       this.categories = []
       for await (const subject of ldflex.data[this.category_url].subjects){
-      //  console.log(`${subject}`);
+        //  console.log(`${subject}`);
         let base = this.category_url+"#"
         if (`${subject}`.includes(base)){
           this.categories.push(`${subject}`.replace(base,''))
@@ -45,6 +45,7 @@ export default {
     },
     run_query() {
       console.log(this.category)
+      this.$emit('searchChanged',this.category)
     },
     removeTwoLastDirectoryPartOf(the_url){
       var the_arr = the_url.split('/');
@@ -56,6 +57,12 @@ export default {
   watch:{
     agora_url(){
       this.init()
+    },
+    category(){
+      console.log(this.category)
+      if (this.category.length == 0){
+        this.run_query()
+      }
     }
   },
   agora_url:{

@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-3">
     <div class="row">
-      <div class="col-12 col-md-4 ">
+      <div class="col-12 col-md-3 ">
         <select v-model="langsel">
           <option value='afr'     > Afrikaans             </option>
           <option value='ara'     > Arabic                </option>
@@ -73,38 +73,54 @@
       </div>
 
 
-      <Upload :images="scan.images" @imagesUploaded="imagesUploaded"/>
+      <!-- <Upload :images="scan.images" @imagesUploaded="imagesUploaded"/> -->
 
-      <textarea v-model="text"  cols="100" rows="10"/>
-      <b-button @click="resetText">Reset Text</b-button>
 
-      <div class="col-12 col-md-4 mt-3 mt-md-0">
-        <!-- <div class="box">
-          <input type="file" name="file-1[]" id="file-1" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" multiple />
+<div class="col-12 col-md-4 ">
+      <!-- <div class="col-12 col-md-4 mt-3 mt-md-0"> -->
+        <div class="box">
+          <b-form-file
+          id="file-1"
+          class="inputfile inputfile-1"
+          accept="image/*"
+          v-model="file"
+          :state="Boolean(file)"
+          placeholder="Choose a file or drop it here..."
+          drop-placeholder="Drop file here..."
+          @input="onInput"
+          ></b-form-file>
+          <!-- <input type="file" name="file-1[]" id="file-1" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" /> -->
           <label for="file-1"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Choose a file&hellip;</span></label>
 
 
-        </div> -->
+        </div>
+      </div>
+      <div class="col-12 col-lg-5 " id="log">
+          <!-- <span id="startPre">
+          <a id="startLink" href="#">Click here to recognize text in the demo</a>
+          <br/> or choose your own image
+        </span> -->
       </div>
     </div>
     <div class="row">
-      <!-- <div class="col-12 col-md-5">
-        <div class="image-container"><img id="selected-image"  src="https://github.com/bensonruan/Tesseract-OCR/raw/master/images/Funny-Minion-Quotes.jpg" class="col-12 p-0" /></div>
-      </div> -->
-      <div class="col-12 col-md-1">
-        <i id="arrow-right" class="fas fa-arrow-right d-none d-md-block"></i>
-        <i id="arrow-down" class="fas fa-arrow-down d-block d-md-none"></i>
-      </div>
-      <div class="col-12 col-md-6">
-        <div id="log">
-          <span id="startPre">
-            <a id="startLink" href="#">Click here to recognize text in the demo</a>
-            <br/> or choose your own image
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
+
+        <div class="image-container col-12 col-md-5">
+          <img id="selected-image"
+           src="https://github.com/bensonruan/Tesseract-OCR/raw/master/images/Funny-Minion-Quotes.jpg"
+            class="col-12 p-0" />
+          </div>
+          <div class="col-12 col-md-7">
+            <textarea v-model="text"  style="min-width: 100%" rows="10"/>
+            <b-button @click="resetText">Reset Text</b-button>
+          </div>
+     </div>
+      <!-- <div class="col-12 col-md-1">
+      <i id="arrow-right" class="fas fa-arrow-right d-none d-md-block"></i>
+      <i id="arrow-down" class="fas fa-arrow-down d-block d-md-none"></i>-->
+    <!-- </div> -->
+
+<!-- </div> -->
+</div>
 
 </template>
 
@@ -121,6 +137,7 @@ export default {
   },
   data(){
     return{
+      file: null,
       scan: {images: []},
       text: "",
       langsel: "eng",
@@ -129,21 +146,48 @@ export default {
   },
   created(){
     console.log(navigator.language)
+    this.langsel = navigator.language == "fr" ?  "fra" : "eng"
     worker = createWorker({
       logger: m => this.progressUpdate(m),
     });
   },
   methods: {
-    imagesUploaded(images){
-      console.log(images)
-      //  this.scan.images = images
-      console.log(this.scan)
-      images.forEach(async (item, i) => {
-        await this.recognize(item)
-        console.log(i)
-      });
+    async onInput(file){
+      console.log(file)
+      let reader = new FileReader();
+      reader.onload = function () {
+        let dataURL = reader.result;
+        let image_container = document.getElementById("selected-image")
+        image_container.setAttribute("src", dataURL);
+        image_container.classList.add("col-12");
+      }
+      //	let file = this.files[0];
+      reader.readAsDataURL(file);
+
+      console.log(file)
+      await this.recognize(file)
     },
-    async recognize (url){
+    // imagesUploaded(images){
+    //   console.log(images)
+    //   //  this.scan.images = images
+    //   console.log(this.scan)
+    //   images.forEach(async (item, i) => {
+    //     console.log(item)
+    //     let reader = new FileReader();
+    //     reader.onload = function () {
+    //       let dataURL = reader.result;
+    //       // $("#selected-image").attr("src", dataURL);
+    //       // $("#selected-image").addClass("col-12");
+    //     }
+    //     //	let file = this.files[0];
+    //     reader.readAsDataURL(item);
+    //
+    //     console.log(item)
+    //     await this.recognize(item)
+    //     //  console.log(i)
+    //   });
+    // },
+    async recognize (file){
       //  const img = document.getElementById('text-img');
       //console.log(img);
       console.log(this.langsel)
@@ -153,14 +197,15 @@ export default {
       await worker.setParameters({
         tessedit_pageseg_mode: PSM.SINGLE_BLOCK,
       });
-      const { data: { text } } = await worker.recognize(url)
+      const { data: { text } } = await worker.recognize(file)
       this.text += text
-
-
+      var log = document.getElementById('log');
+          log.innerHTML = "Done !"
     },
 
     progressUpdate(packet){
       var log = document.getElementById('log');
+          log.innerHTML = ""
 
       if(log.firstChild && log.firstChild.status === packet.status){
         if('progress' in packet){
@@ -184,13 +229,13 @@ export default {
 
 
         if(packet.status == 'done'){
-          log.innerHTML = ''
+
           var pre = document.createElement('pre')
           pre.appendChild(document.createTextNode(packet.data.text.replace(/\n\s*\n/g, '\n')))
           line.innerHTML = ''
           line.appendChild(pre)
-          $(".fas").removeClass('fa-spinner fa-spin')
-          $(".fas").addClass('fa-check')
+          //  $(".fas").removeClass('fa-spinner fa-spin')
+          //  $(".fas").addClass('fa-check')
         }
 
         log.insertBefore(line, log.firstChild)
@@ -223,7 +268,7 @@ export default {
 #log {
   border: 1px solid #dadada;
   padding: 10px;
-  min-height: 200px;
+  /* min-height: 200px; */
 }
 .image-container img{
   border: 1px solid #dadada;
