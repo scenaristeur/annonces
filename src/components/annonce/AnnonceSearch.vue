@@ -1,12 +1,20 @@
 <template>
   <vue-bootstrap-typeahead
+  ref="typehead"
   v-model="category"
   :data="categories"
   placeholder="Category"
   size="lg"
+  :minMatchingChars="mmc"
   @hit="run_query"
-  />
-  <!--   @hit="category = $event"-->
+  >
+  <template slot="append">
+    <button @click="reset" class="btn btn-primary">
+      X
+    </button>
+  </template>
+</vue-bootstrap-typeahead>
+<!--   @hit="category = $event"-->
 </template>
 
 <script>
@@ -19,7 +27,8 @@ export default {
   },
   data(){
     return {
-      categories: ['Canada', 'USA', 'Mexico'],
+      mmc: 1,
+      categories: [],
       category: '',
       selectedAddress: null
     }
@@ -37,7 +46,8 @@ export default {
         //  console.log(`${subject}`);
         let base = this.category_url+"#"
         if (`${subject}`.includes(base)){
-          this.categories.push(`${subject}`.replace(base,''))
+          let cat = `${subject}`.replace(base,'')
+          !this.categories.includes(cat) ?  this.categories.push(cat) : ""
         }
 
       }
@@ -52,6 +62,10 @@ export default {
       the_arr.pop()
       the_arr.pop();
       return( the_arr.join('/') );
+    },
+    reset(){
+      this.category = ""
+    //  this.$refs.typehead.value = ""
     }
   },
   watch:{

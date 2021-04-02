@@ -14,7 +14,7 @@
     Agora's Annonces
 
     <!-- <TimeScroller start="03/02/2021" :root="this.temp_url" :step="step" extension="ttl" /> -->
-    <TimeLoader :root="this.temp_url" start="03/01/2021" />
+    <TimeLoader :root="this.temp_url" start="03/22/2021" />
 
 
 

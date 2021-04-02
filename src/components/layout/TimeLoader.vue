@@ -1,11 +1,20 @@
 <template>
   <div>
     <AnnonceSearch @searchChanged="searchChanged" />
-    <b-card-group columns>
+    <b-list-group>
       <AnnonceCard :annonce="a" v-for="a in list" :key="a.url" :search="search" />
-    </b-card-group>
+    </b-list-group>
+
     <infinite-loading @infinite="infiniteHandler" :identifier="infiniteId"></infinite-loading>
-  </div>
+    <b-alert
+    v-model="busy"
+    class="position-fixed fixed-bottom rounded-0"
+    style="z-index: 2000; bottom:30px"
+    variant="info"
+    dismissible
+    >{{title}}
+  </b-alert>
+</div>
 </template>
 
 <script>
@@ -30,6 +39,8 @@ export default {
       limite: null,
       search: "",
       infiniteId: +new Date(),
+      title: "",
+      busy: false
     };
   },
   created(){
@@ -42,14 +53,12 @@ export default {
       this.infiniteId += 1;
     },
     async infiniteHandler($state) {
-      console.log($state)
-      console.log(this.limite <= this.date )
       if (this.limite <= this.date ){
-        console.log(this.date)
+        this.busy = true
         let path = this.getPath()
-        console.log(path)
         let resource = path+"#this"
         try{
+          this.title = "loading "+this.date.toLocaleDateString()
           for await (const annonce_url of ldflex.data[resource]['http://purl.org/dc/terms/hasPart']){
             let idx = this.list.findIndex(x => x.url === `${annonce_url}`)
             if (idx === -1) {
@@ -62,10 +71,9 @@ export default {
         this.date.setDate(this.date.getDate() -1)
         //  let data = [{date: this.date}]
         //  this.list.push(...data);
-        console.log("list", this.list)
         $state.loaded();
+        this.busy = false
       }else{
-        console.log("done")
         $state.complete();
       }
 
@@ -97,7 +105,14 @@ export default {
       path +=[this.date.getFullYear(), ("0" + (this.date.getMonth() + 1)).slice(-2), ("0" + this.date.getDate()).slice(-2)].join("/")
       path+= ".ttl"
       return path
-    }
+    },
+    makeToast(title, content, variant = null) {
+      this.$bvToast.toast(content , {
+        title: title,
+        variant: variant,
+        solid: true
+      })
+    },
   },
 }
 </script>

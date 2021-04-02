@@ -10,6 +10,7 @@ Vue.use(IconsPlugin)
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import "bootswatch/dist/slate/bootstrap.min.css";
 
 Vue.config.productionTip = false
 

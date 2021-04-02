@@ -1,73 +1,76 @@
 <template>
-
-
-  <b-card
-  tag="article"
-  style="max-width: 20rem;"
-  class="mb-2"
-  no-body
-  v-if="show"
-  >
-  <b-card-body>
-    <b-card-img :src="a.image" top></b-card-img>
-
-    <!-- <b-card-title>{{a.title}}</b-card-title> -->
-    <b-link @click="showDetails" variant="outline-info" class="stretched-link">
-
-      <h4 class="d-flex justify-content-between align-items-center">
-        {{ a.title && a.title.length > 50 ? a.title.substring(0,50)+".." : a.title  }}
-        <b-badge variant="primary" pill class="mr-3">{{a.price}} {{a.currency}}</b-badge>
-      </h4>
-
-    </b-link>
-
-    <b-card-sub-title >
-      <b-badge variant="primary"  v-for="(c, i) in a.category.split(',')" :key="i"  pill class="mr-3">{{c}}</b-badge>
-
-    </b-card-sub-title>
-
-
-    <b-card-text>
-      {{ a.description && a.description.length > 60 ? a.description.substring(0,60)+".." : a.description  }}
-    </b-card-text>
-    <small> modified: {{a.date}}</small>
-
-    <!-- <b-button @click="showDetails" class="stretched-link" variant="outline-info">More</b-button> -->
-  </b-card-body>
-</b-card>
-
-<!-- <div>
+  <b-list-group-item  v-if="show" button class="mb-2 rounded-4" @click="showDetails" variant="info">
 
 
 
+    <div class="row">
+      <b-col md="3" v-if="a.image != undefined && a.image.length > 0">
+        <b-card-img :src="a.image" class="rounded-0" style="max-height=100px"></b-card-img>
+      </b-col>
+      <b-col>
+        <div  class="flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h4 class="mb-1">{{a.title}}</h4>
+            <div>{{a.price}} {{a.currency}}</div>
+            <!-- <small>3 days ago</small> -->
+            <!-- <b-badge variant="primary" pill class="mr-3"></b-badge> -->
+          </div>
 
-<b-card
-tag="article"
-style="max-width: 20rem;"
-class="mb-2"
-button
->
-<b-card-body @click="showDetails" href="#" variant="outline-info" class="stretched-link">
-<b-card-title class="d-flex justify-content-between align-items-center">
+          <!-- <b-badge variant="primary" pill class="mr-3">{{a.price}} {{a.currency}}</b-badge> -->
+
+          <div v-if="a.category != undefined">
+            <b-badge variant="primary"  v-for="(c, i) in a.category.split(',')" :key="i"  pill class="mr-3">{{c}}</b-badge>
+          </div>
+
+          <p class="mb-1">
+            {{ a.description && a.description.length > 60 ? a.description.substring(0,60)+".." : a.description  }}
+          </p>
+
+          <small>modified: {{a.date}}</small>
+        </div>
+      </b-col>
+    </div>
+
+    <!-- <b-col>
+    <h4 class="d-flex justify-content-between align-items-center">
+    {{ a.title && a.title.length > 50 ? a.title.substring(0,50)+".." : a.title  }}
+  </h4>
 
 
 
-</b-card-title>
+</b-col> -->
+
+
+<!-- <b-card no-body class="overflow-hidden"  v-if="show">
+<b-row no-gutters>
+<b-col md="3" v-if="a.image.length > 0">
+<b-card-img :src="a.image" class="rounded-0" style="max-height=100px"></b-card-img>
+</b-col>
+<b-col>
+<b-card-body>
+<b-link @click="showDetails" variant="outline-info" class="stretched-link">
+
+<h4 class="d-flex justify-content-between align-items-center">
+{{ a.title && a.title.length > 50 ? a.title.substring(0,50)+".." : a.title  }}
+</h4>
+
+</b-link>
+<b-badge variant="primary" pill class="mr-3">{{a.price}} {{a.currency}}</b-badge>
+
+<b-card-sub-title >
+<b-badge variant="primary"  v-for="(c, i) in a.category.split(',')" :key="i"  pill class="mr-3">{{c}}</b-badge>
+</b-card-sub-title>
+
 <b-card-text>
-
+{{ a.description && a.description.length > 60 ? a.description.substring(0,60)+".." : a.description  }}
 </b-card-text>
-
-
-
-
-
-
-
+<small> modified: {{a.date}}</small>
 </b-card-body>
-</b-card>
+</b-col>
+</b-row>
+</b-card> -->
+</b-list-group-item>
 
-
-</div> -->
 </template>
 
 <script>

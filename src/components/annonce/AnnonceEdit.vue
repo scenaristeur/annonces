@@ -3,7 +3,7 @@
     <div v-if="webId != null">
       <h3>Add an Annonce</h3>
       <b-input placeholder="title" v-model="annonce.title" :state="getState()" autofocus />
-      <b-input placeholder="category" v-model="annonce.category" />
+      <b-input placeholder="3 categories max, comma separated" v-model="annonce.category" />
       <b-textarea placeholder="description" v-model="annonce.description" />
       <b-input placeholder="price" v-model="annonce.price" />
       <b-input placeholder="currency (€,$...)" v-model="annonce.currency" />
