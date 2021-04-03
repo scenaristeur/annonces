@@ -2,7 +2,7 @@
   <b-container>
     <div v-if="webId != null">
 
-      <AnnonceInbox />
+      <!-- <AnnonceInbox /> -->
 
 
 
@@ -50,7 +50,7 @@
 export default {
   name: "AnnonceList",
   components: {
-    'AnnonceInbox': () => import('@/components/annonce/AnnonceInbox'),
+    // 'AnnonceInbox': () => import('@/components/annonce/AnnonceInbox'),
   },
   data(){
     return{

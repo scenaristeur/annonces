@@ -27,7 +27,7 @@
 
     <b-alert v-if="error.length == 0" show>
       <div v-if="webId != null">
-        Contact : <b-button v-b-modal.modal-contact variant="info">{{ a.creator }}</b-button>
+        Contact : <b-button v-b-modal.modal-contact variant="info">{{ a.creator.split('/') }}</b-button>
       </div>
       <div v-else>
         You must login to contact the creator of this annonce.

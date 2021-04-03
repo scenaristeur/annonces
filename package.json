@@ -10,7 +10,7 @@
     "postgit": "git push && git subtree push --prefix dist origin gh-pages"
   },
   "dependencies": {
-    "@inrupt/solid-client": "^1.6.0",
+    "@inrupt/solid-client": "^1.6.1",
     "@inrupt/solid-client-authn-browser": "^1.7.2",
     "@inrupt/vocab-common-rdf": "^0.7.2",
     "@inrupt/vocab-solid-common": "^0.7.2",
@@ -18,10 +18,10 @@
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
     "bootswatch": "^4.6.0",
-    "core-js": "^3.9.1",
+    "core-js": "^3.10.0",
     "register-service-worker": "^1.7.1",
     "solid-auth-client": "^2.5.5",
-    "solid-file-client": "^1.2.3",
+    "solid-file-client": "^1.2.4",
     "tesseract.js": "^2.1.4",
     "vue": "^2.6.12",
     "vue-bootstrap-typeahead": "^0.2.6",
@@ -38,7 +38,7 @@
     "@vue/cli-plugin-vuex": "^4.5.12",
     "@vue/cli-service": "^4.5.12",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.22.0",
+    "eslint": "^7.23.0",
     "eslint-plugin-vue": "^7.8.0",
     "vue-template-compiler": "^2.6.11"
   }

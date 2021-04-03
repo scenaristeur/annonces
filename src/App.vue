@@ -5,13 +5,16 @@
         <b-navbar-brand to="/">Bon-Prix</b-navbar-brand>
         <SolidLoginButton v-if="webId == null"/>
         <b-nav-item to="/my_annonces">My annonces</b-nav-item>
+        <b-nav-item to="/inbox">Inbox</b-nav-item>
+
+
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
             <b-nav-item to="/">Home</b-nav-item>
             <b-nav-item to="/about">About</b-nav-item>
-              <SolidLoginButton v-if="webId != null"/>
+            <SolidLoginButton v-if="webId != null"/>
             <!-- <router-link to="/">Bon-Prix</router-link> | -->
             <!-- <router-link to="/my_annonces">My annonces</router-link> |
             <router-link to="/about">About</router-link> | -->
@@ -84,9 +87,9 @@ text-align: center;
 #nav a {
 font-weight: bold;
 color: #2c3e50;
-}
+}*/
 
 #nav a.router-link-exact-active {
 color: #42b983;
-} */
+} 
 </style>
