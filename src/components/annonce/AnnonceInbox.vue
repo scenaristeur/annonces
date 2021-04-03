@@ -1,51 +1,53 @@
 <template>
 
   <div>
+    <div v-if="webId != null">
+      <div v-if="acl.status != 'OK'">
+        <h5>ACL / Authorization verification : </h5>
+        <p>
+          To allow other Authenticated Users to send you inbox message, you have to set correct Authorizations for <b-badge variant="warning">{{ inboxAnnonceFolder }}</b-badge> as i'm not sure the are good :
+          <ul>
+            <li>
+              <b-badge variant="warning">{{webId}}</b-badge> with <b-badge variant="warning">CONTROL</b-badge>
+            </li>
+            <li>
+              AuthenticatedAgent as "Poster" for the folder & "Submitters" for it's content
+            </li>
+          </ul>
+          <br>
 
-    <div v-if="acl.status != 'OK'">
-      <h5>ACL / Authorization verification : </h5>
-      <p>
-        To allow other Authenticated Users to send you inbox message, you have to set correct Authorizations for <b-badge variant="warning">{{ inboxAnnonceFolder }}</b-badge> as i'm not sure the are good :
-        <ul>
-          <li>
-            <b-badge variant="warning">{{webId}}</b-badge> with <b-badge variant="warning">CONTROL</b-badge>
-          </li>
-          <li>
-            AuthenticatedAgent as "Poster" for the folder & "Submitters" for it's content
-          </li>
-        </ul>
-        <br>
+          <a href="https://github.com/jeff-zucker/solid-file-client/issues/189" target="_blank">
+            More info about why You must change authorization on this folder</a>
+          </p>
+          You can do it manually at <a :href="inboxAnnonceFolder" target="_blank">{{ inboxAnnonceFolder }}</a> or use this button. <br>
+          <b-button @click="setAcl" v-if="acl.status == 'KO'">Set Authorization</b-button>
+          <!-- <small>
+          {{ acl }}
+        </small> -->
+      </div>
 
-        <a href="https://github.com/jeff-zucker/solid-file-client/issues/189" target="_blank">
-          More info about why You must change authorization on this folder</a>
-        </p>
-        You can do it manually at <a :href="inboxAnnonceFolder" target="_blank">{{ inboxAnnonceFolder }}</a> or use this button. <br>
-        <b-button @click="setAcl" v-if="acl.status == 'KO'">Set Authorization</b-button>
-        <!-- <small>
-        {{ acl }}
-      </small> -->
+
+      <b-list-group>
+        INBOX ( {{ messages.length}} messages )
+        <b-list-group-item v-for="m in messages" :key="m.url">
+          {{ m.created }} / {{ m.creator}} : <b>{{m.annonce.title}}</b> ::: {{ m.text }}
+
+
+          <b-button variant="light" @click="reply(m)" style="margin-left:auto;">
+            <b-icon icon="pen"></b-icon>
+          </b-button>
+          <b-button variant="danger" @click="showDeleteConfirm(m)" style="margin-left:auto;" v-b-modal.message-delete>
+            <b-icon icon="trash"></b-icon>
+          </b-button>
+        </b-list-group-item>
+
+        <b-modal id="message-delete" centered title="Delete" @ok="onDelete">
+          <div class="p-3" v-html="deleteMessage"></div>
+        </b-modal>
+
+      </b-list-group>
+
     </div>
-
-
-    <b-list-group  v-if="webId != null">
-      INBOX ( {{ messages.length}} messages )
-      <b-list-group-item v-for="m in messages" :key="m.url">
-        {{ m.created }} / {{ m.creator}} : <b>{{m.annonce.title}}</b> ::: {{ m.text }}
-
-
-        <b-button variant="light" @click="reply(m)" style="margin-left:auto;">
-          <b-icon icon="pen"></b-icon>
-        </b-button>
-        <b-button variant="danger" @click="showDeleteConfirm(m)" style="margin-left:auto;" v-b-modal.message-delete>
-          <b-icon icon="trash"></b-icon>
-        </b-button>
-      </b-list-group-item>
-
-      <b-modal id="message-delete" centered title="Delete" @ok="onDelete">
-        <div class="p-3" v-html="deleteMessage"></div>
-      </b-modal>
-
-    </b-list-group>
 
     <div v-else>
       You must login to manage your annonces inbox.
