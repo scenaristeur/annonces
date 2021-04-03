@@ -1,17 +1,21 @@
 <template>
-  <b-list-group-item  v-if="show" button class="mb-2 rounded-4" @click="showDetails" variant="info">
+  <b-list-group-item  v-if="show" button class="mb-2 rounded-5" @click="showDetails" variant="info" >
 
 
 
     <div class="row">
       <b-col md="3" v-if="a.image != undefined && a.image.length > 0">
-        <b-card-img :src="a.image" class="rounded-0" style="max-height=100px"></b-card-img>
+        <b-img :src="a.image" thumbnail fluid style="max-height=100px" class="mb-2" :title='a.images != undefined && a.images.length > 1 ? a.images.length+" images": ""'>
+
+        </b-img>
+        <b-badge v-if="a.images.length>1" variant="info" style="position: absolute; top:10px, right:100px">{{a.images.length}}</b-badge>
       </b-col>
       <b-col>
         <div  class="flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
             <h4 class="mb-1">{{a.title}}</h4>
-            <div>{{a.price}} {{a.currency}}</div>
+            <!-- <div></div> -->
+            <b-alert show variant="info" v-if="a.price.length > 0"><b>{{a.price}} {{a.currency}}</b></b-alert>
             <!-- <small>3 days ago</small> -->
             <!-- <b-badge variant="primary" pill class="mr-3"></b-badge> -->
           </div>

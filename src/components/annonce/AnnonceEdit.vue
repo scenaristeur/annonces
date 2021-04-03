@@ -2,7 +2,24 @@
   <b-container>
     <div v-if="webId != null">
       <h3>Add an Annonce</h3>
-      <b-input placeholder="title" v-model="annonce.title" :state="getState()" autofocus />
+      <b-form>
+
+        <b-form-group
+        id="input-group-1"
+        label="Title:"
+        label-for="input-1"
+        description="Your annonce / 'small ad' need a explicit title."
+        >
+        <b-form-input
+        id="input-1"
+        v-model="annonce.title" :state="getState()" autofocus
+        placeholder="Enter annonce title"
+        required
+        ></b-form-input>
+      </b-form-group>
+
+
+      <!-- <b-input placeholder="title" v-model="annonce.title" :state="getState()" autofocus /> -->
       <b-input placeholder="3 categories max, comma separated" v-model="annonce.category" />
       <b-textarea placeholder="description" v-model="annonce.description" />
       <b-input placeholder="price" v-model="annonce.price" />
@@ -18,10 +35,11 @@
       <b-button class="ml-auto" variant="primary" @click="add()">save</b-button>
       <b-button class="ml-2" variant="outline-secondary" @click="goBack()">back</b-button>
     </div>
-  </div>
-  <div v-else>
-    You must login to manage your annonces.
-  </div>
+  </b-form>
+</div>
+<div v-else>
+  You must login to manage your annonces.
+</div>
 </b-container>
 </template>
 

@@ -4,9 +4,11 @@ const fc = new FC( auth )
 import { Notif } from '@/components/annonce/Notif.js'
 
 const state = () => ({
-  annonces: [],
+  annoncesAll: [],
+  annoncesMy: [],
   path: "public/annonces/",
-  agora_url:"https://agora.solidcommunity.net/public/Annonce/annonces/"
+  agora_url:"https://agora.solidcommunity.net/public/Annonce/annonces/",
+  defaultAgoraPod:"https://agora.solidcommunity.net/public/Annonce/annonces/",
 })
 
 // getters
@@ -50,7 +52,7 @@ const actions = {
 
 
 
-  async init(context){
+  async initMy(context){
     let storage = context.rootState.solid.storage;
     if(storage != null){
       try{
@@ -60,22 +62,22 @@ const actions = {
         }
         let folder = await fc.readFolder(path)
         console.log(folder)
-        let annonces = []
+        let annoncesMy = []
 
         for await (const f of folder.files) {
-          annonces.push(JSON.parse(await fc.readFile(f.url)))
+          annoncesMy.push(JSON.parse(await fc.readFile(f.url)))
         }
         //  await folder.files.map( function(x) {
         //   let f =  fc.readFile(x.url)
         //   return `${f}`
         // })
-        console.log(annonces)
-        context.state.annonces = annonces
+        console.log(annoncesMy)
+        context.state.annoncesMy = annoncesMy
       }catch(e){
         alert(e)
       }
     }else{
-      context.state.annonces = []
+      context.state.annoncesMy = []
     }
   }
 
@@ -177,16 +179,16 @@ const actions = {
 // mutations
 const mutations = {
   update(state, a){
-    let idx = state.annonces.findIndex(x => x.id === a.id)
+    let idx = state.annoncesMy.findIndex(x => x.id === a.id)
     if (idx === -1) {
-      state.annonces.push(a)
+      state.annoncesMy.push(a)
     } else {
-      Object.assign(state.annonces[idx], a)
+      Object.assign(state.annoncesMy[idx], a)
     }
     // console.log(commit)
   },
   delete(state, id){
-    state.annonces = state.annonces.filter(x => x.id != id)
+    state.annoncesMy = state.annoncesMy.filter(x => x.id != id)
   },
   setAgoraUrl(state, url){
     state.agora_url = url

@@ -4,8 +4,7 @@
       <b-navbar toggleable="lg" type="dark" variant="info">
         <b-navbar-brand to="/">Bon-Prix</b-navbar-brand>
         <SolidLoginButton v-if="webId == null"/>
-        <b-nav-item to="/my_annonces">My annonces</b-nav-item>
-        <b-nav-item to="/inbox">Inbox</b-nav-item>
+
 
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -13,8 +12,12 @@
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
             <b-nav-item to="/">Home</b-nav-item>
+            <b-nav-item to="/my_annonces">My annonces</b-nav-item>
+            <b-nav-item to="/inbox">Inbox</b-nav-item>
+            <b-nav-item to="/config">Config</b-nav-item>
             <b-nav-item to="/about">About</b-nav-item>
             <SolidLoginButton v-if="webId != null"/>
+            <b-nav-item to="/" disabled></b-nav-item>
             <!-- <router-link to="/">Bon-Prix</router-link> | -->
             <!-- <router-link to="/my_annonces">My annonces</router-link> |
             <router-link to="/about">About</router-link> | -->
@@ -76,20 +79,20 @@ font-family: Avenir, Helvetica, Arial, sans-serif;
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 color: #2c3e50;
-}
+}*/
 
 
 #nav {
-padding: 30px;
-text-align: center;
+  padding: 30px;
+  text-align: center;
 }
 
 #nav a {
-font-weight: bold;
-color: #2c3e50;
-}*/
+  font-weight: bold;
+  color: #2c3e50;
+}
 
 #nav a.router-link-exact-active {
-color: #42b983;
-} 
+  color: #42b983;
+}
 </style>

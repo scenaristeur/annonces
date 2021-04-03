@@ -8,8 +8,8 @@
     <infinite-loading @infinite="infiniteHandler" :identifier="infiniteId"></infinite-loading>
     <b-alert
     v-model="busy"
-    class="position-fixed fixed-bottom rounded-0"
-    style="z-index: 2000; bottom:30px"
+    class="position-fixed fixed-bottom rounded-3"
+    style="z-index: 2000; bottom:0px"
     variant="info"
     dismissible
     >{{title}}

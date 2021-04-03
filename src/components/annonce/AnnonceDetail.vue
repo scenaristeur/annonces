@@ -39,7 +39,7 @@
       <b-button variant="danger" to="/">Back to Annonces List</b-button>
     </b-alert>
 
-      <small v-if="a.date != undefined">{{new Date(a.date).toLocaleDateString()}}</small>
+    <small v-if="a.date != undefined">{{new Date(a.date).toLocaleDateString()}}</small>
 
     <div v-for="i in a.images" :key="i">
       <b-card-img :src="i" alt="Image"   style="max-width: 20rem;"
@@ -47,10 +47,12 @@
     </div>
     <!-- {{ a.images }} -->
 
-
-
-
   </b-card>
+
+  <p>
+  <small>Todo: Caroussel with some annonce suggestion from same categories.</small>
+
+  </p>
 
 
   <b-modal id="modal-contact" centered title="Send a message" @ok="onSend" size="lg">

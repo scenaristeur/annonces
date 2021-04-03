@@ -7,11 +7,18 @@
 
 
       <div class="d-flex">
-        <b-button variant="primary" class="ml-auto" @click="edit">add</b-button>
+        <b-button variant="info" class="ml-auto" @click="edit">Add a new annonce</b-button>
       </div>
       <h3>My Annonces</h3>
 
-      <b-table striped hover :items="annonces" :fields="fields" responsive >
+      <b-table striped hover :items="annoncesMy" :fields="fields" responsive >
+
+        <!-- <template #cell(title)="row">
+          <div  style="width=200px;height=200px">
+            {{row.value}}
+          </div>
+        </template> -->
+
         <template #cell(action)="row">
           <!-- <b-button size="sm" @click="row.toggleDetails" class="mr-2">
           {{ row.detailsShowing ? 'Hide' : 'Show'}} Details
@@ -83,12 +90,15 @@ export default {
       deleteMessage: "",
       //  fields: ['title', 'category', 'price', 'currency', 'created'],
       fields: [
-        "action",
+        {
+          key: "action",
+          label: "",
+          variant: "secondary",
+          stickyColumn: true
+        },
         {
           key: 'title',
           sortable: true,
-          variant: "secondary",
-          stickyColumn: true
         },
         {
           key: 'category',
@@ -99,13 +109,14 @@ export default {
           //label: 'Person age',
           sortable: true,
           // Variant applies to the whole column, including the header and footer
-          variant: 'info'
+          variant: 'info',
+          formatter: function(value, key, item) {return item.price+' '+item.currency || '**' }
         },
-        {
-          key: 'currency',
-          sortable: true,
-          variant: 'info'
-        },
+        // {
+        //   key: 'currency',
+        //   sortable: true,
+        //   variant: 'info'
+        // },
         {
           key: 'created',
           sortable: true,
@@ -139,7 +150,7 @@ export default {
     },
     init(){
       if (this.storage != null){
-        this.$store.dispatch('annonce/init')
+        this.$store.dispatch('annonce/initMy')
       }
     }
 
@@ -156,8 +167,8 @@ export default {
     storage(){
       return this.$store.state.solid.storage
     },
-    annonces() {
-      return this.$store.state.annonce.annonces
+    annoncesMy() {
+      return this.$store.state.annonce.annoncesMy
     }
   },
 }
