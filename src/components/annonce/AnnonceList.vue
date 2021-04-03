@@ -10,40 +10,66 @@
         <b-button variant="primary" class="ml-auto" @click="edit">add</b-button>
       </div>
       <h3>My Annonces</h3>
-      <b-list-group>
-        <b-list-group-item v-for="(annonce, i) in annonces" :key="i" class="d-flex justify-content-between align-items-center">
 
-          <div>
-            <b-badge variant="primary" pill class="mr-3">{{annonce.category}}</b-badge>
-            <span>{{annonce.title}}</span>
-          </div>
-          <div>
-            {{annonce.price}} {{annonce.currency}}
-          </div>
-          <div>
-            <b-button variant="light" @click="edit(annonce)" style="margin-left:auto;">
-              <b-icon icon="pen"></b-icon>
-            </b-button>
-            <b-button variant="danger" @click="showDeleteConfirm(annonce)" style="margin-left:auto;" v-b-modal.modal-center>
-              <b-icon icon="trash"></b-icon>
-            </b-button>
-          </div>
+      <b-table striped hover :items="annonces" :fields="fields" responsive >
+        <template #cell(action)="row">
+          <!-- <b-button size="sm" @click="row.toggleDetails" class="mr-2">
+          {{ row.detailsShowing ? 'Hide' : 'Show'}} Details
+        </b-button> -->
 
-        </b-list-group-item>
-        <b-list-group-item v-if="annonces.length == 0">
-          no entries
-        </b-list-group-item>
-      </b-list-group>
-    </div>
-    <div v-else>
-      You must login to manage your annonces.
-    </div>
+        <b-button size="sm" variant="light" @click="edit(row.item)" style="margin-left:auto;">
+          <b-icon icon="pen"></b-icon>
+        </b-button>
+        <b-button size="sm" variant="danger" @click="showDeleteConfirm(row.item)" style="margin-left:auto;" v-b-modal.modal-center>
+          <b-icon icon="trash"></b-icon>
+        </b-button>
 
-    <b-modal id="modal-center" centered title="Delete" @ok="onDelete">
-      <div class="p-3" v-html="deleteMessage"></div>
-    </b-modal>
 
-  </b-container>
+
+        <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
+        <!-- <b-form-checkbox v-model="row.detailsShowing" @change="row.toggleDetails">
+        Details via check
+      </b-form-checkbox> -->
+    </template>
+
+  </b-table>
+
+
+
+  <!-- <b-list-group>
+  <b-list-group-item v-for="(annonce, i) in annonces" :key="i" class="d-flex justify-content-between align-items-center">
+
+  <div>
+  <b-badge variant="primary" pill class="mr-3">{{annonce.category}}</b-badge>
+  <span>{{annonce.title}}</span>
+</div>
+<div>
+{{annonce.price}} {{annonce.currency}}
+</div>
+<div>
+<b-button variant="light" @click="edit(annonce)" style="margin-left:auto;">
+<b-icon icon="pen"></b-icon>
+</b-button>
+<b-button variant="danger" @click="showDeleteConfirm(annonce)" style="margin-left:auto;" v-b-modal.modal-center>
+<b-icon icon="trash"></b-icon>
+</b-button>
+</div>
+
+</b-list-group-item>
+<b-list-group-item v-if="annonces.length == 0">
+no entries
+</b-list-group-item>
+</b-list-group> -->
+</div>
+<div v-else>
+  You must login to manage your annonces.
+</div>
+
+<b-modal id="modal-center" variant="danger" centered title="Delete" @ok="onDelete">
+  <div class="p-3"  v-html="deleteMessage"></div>
+</b-modal>
+
+</b-container>
 </template>
 
 <script>
@@ -55,6 +81,44 @@ export default {
   data(){
     return{
       deleteMessage: "",
+      //  fields: ['title', 'category', 'price', 'currency', 'created'],
+      fields: [
+        "action",
+        {
+          key: 'title',
+          sortable: true,
+          variant: "secondary",
+          stickyColumn: true
+        },
+        {
+          key: 'category',
+          sortable: true
+        },
+        {
+          key: 'price',
+          //label: 'Person age',
+          sortable: true,
+          // Variant applies to the whole column, including the header and footer
+          variant: 'info'
+        },
+        {
+          key: 'currency',
+          sortable: true,
+          variant: 'info'
+        },
+        {
+          key: 'created',
+          sortable: true,
+          formatter: function(value){ return new Date(value).toLocaleDateString()}
+        },
+        {
+          key: "images",
+          "label": 'pics',
+          sortable: true,
+          formatter: function(value){ return value.length}
+        }
+
+      ]
     }
   },
   created(){
@@ -66,7 +130,7 @@ export default {
       this.$router.push({ name: 'Edit', params: { id: a.id }})
     },
     showDeleteConfirm(a){
-      this.deleteMessage= "Do you want to delete <b>"+a.title+"</b>"
+      this.deleteMessage= '<b-alert show variant="danger">Do you really want to delete <b>'+a.title+'</b></b-alert>'
       this.idToDelete = a.id
     },
     onDelete(){

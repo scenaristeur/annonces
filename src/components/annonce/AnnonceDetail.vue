@@ -26,8 +26,8 @@
 
 
     <b-alert v-if="error.length == 0" show>
-      <div v-if="webId != null">
-        Contact : <b-button v-b-modal.modal-contact variant="info">{{ a.creator.split('/') }}</b-button>
+      <div v-if="webId != null && a.creator != undefined">
+        Contact : <b-button v-b-modal.modal-contact variant="info">{{ a.creator.split('/')[2] }}</b-button>
       </div>
       <div v-else>
         You must login to contact the creator of this annonce.
@@ -39,6 +39,8 @@
       <b-button variant="danger" to="/">Back to Annonces List</b-button>
     </b-alert>
 
+      <small v-if="a.date != undefined">{{new Date(a.date).toLocaleDateString()}}</small>
+
     <div v-for="i in a.images" :key="i">
       <b-card-img :src="i" alt="Image"   style="max-width: 20rem;"
       class="mb-2" bottom></b-card-img>
@@ -47,7 +49,7 @@
 
 
 
-    <small> modified: {{a.date}}</small>
+
   </b-card>
 
 

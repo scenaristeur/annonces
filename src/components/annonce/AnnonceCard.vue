@@ -26,7 +26,7 @@
             {{ a.description && a.description.length > 60 ? a.description.substring(0,60)+".." : a.description  }}
           </p>
 
-          <small>modified: {{a.date}}</small>
+          <small v-if="a.date != undefined">{{new Date(a.date).toLocaleDateString()}}</small>
         </div>
       </b-col>
     </div>
