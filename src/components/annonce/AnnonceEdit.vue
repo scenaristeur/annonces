@@ -206,7 +206,7 @@ export default {
     vfileAdded(origFile) {
       //https://stackoverflow.com/questions/20533191/dropzone-js-client-side-image-resizing
       let dropzone = this.$refs.myVueDropzone
-    //  console.log("DZ1", dropzone)
+      //  console.log("DZ1", dropzone)
       let app = this
       var MAX_WIDTH  = 800;
       var MAX_HEIGHT = 600;
@@ -231,7 +231,7 @@ export default {
           if (width <= MAX_WIDTH && height <= MAX_HEIGHT) {
             // dropzone.enqueueFile(origFile);
             //https://stackoverflow.com/questions/48225489/how-can-i-enqueue-a-file-manually-in-dropzone-vue-dropzone-2
-              dropzone.dropzone.enqueueFile(origFile)
+            dropzone.dropzone.enqueueFile(origFile)
             return;
           }
 
@@ -265,17 +265,17 @@ export default {
 
 
           // Replace original with resized
-
+          console.log(dropzone)
           var origFileIndex = dropzone.dropzone.files.indexOf(origFile);
           dropzone.dropzone.files[origFileIndex] = resizedFile;
 
 
           // Enqueue added file manually making it available for
           // further processing by dropzone
-      //    console.log("DZ",dropzone)
+          //    console.log("DZ",dropzone)
 
-        //  dropzone.enqueueFile(resizedFile);
-        //https://stackoverflow.com/questions/48225489/how-can-i-enqueue-a-file-manually-in-dropzone-vue-dropzone-2
+          //  dropzone.enqueueFile(resizedFile);
+          //https://stackoverflow.com/questions/48225489/how-can-i-enqueue-a-file-manually-in-dropzone-vue-dropzone-2
           dropzone.dropzone.enqueueFile(resizedFile)
         });
       });
