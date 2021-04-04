@@ -109,6 +109,7 @@ required
 
 ---------------------------
 test dropzone not activated yet , don't use
+resized
 
 <vueDropzone ref="myVueDropzone" id="dropzone"
 @vdropzone-file-added="vfileAdded"
@@ -154,7 +155,9 @@ export default {
         thumbnailWidth: 100,
         maxFilesize: 0.5,
         headers: { "My-Awesome-Header": "header value" },
-        addRemoveLinks: true
+        addRemoveLinks: true,
+        resizeWidth: 300,
+        resizeHeight: 400,
       },
       // fileAdded: false,
       // filesAdded: false,
