@@ -152,11 +152,12 @@ export default {
       files: null,
       dropzoneOptions: {
         url: 'https://httpbin.org/post',
-        thumbnailWidth: 200,
+        //thumbnailWidth: 200,
         maxFilesize: 0.5,
         headers: { "My-Awesome-Header": "header value" },
         addRemoveLinks: true,
         resizeWidth: 100,
+        autoQueue: false,
         //  resizeHeight: 400,
       },
       // fileAdded: false,
@@ -203,7 +204,10 @@ export default {
       console.log(file)
     },
     vfileAdded(origFile) {
+      //https://stackoverflow.com/questions/20533191/dropzone-js-client-side-image-resizing
       let dropzone = this.$refs.myVueDropzone
+    //  console.log("DZ1", dropzone)
+      let app = this
       var MAX_WIDTH  = 800;
       var MAX_HEIGHT = 600;
 
@@ -225,7 +229,9 @@ export default {
           // Don't resize if it's small enough
 
           if (width <= MAX_WIDTH && height <= MAX_HEIGHT) {
-            dropzone.enqueueFile(origFile);
+            // dropzone.enqueueFile(origFile);
+            //https://stackoverflow.com/questions/48225489/how-can-i-enqueue-a-file-manually-in-dropzone-vue-dropzone-2
+              dropzone.dropzone.enqueueFile(origFile)
             return;
           }
 
@@ -246,6 +252,7 @@ export default {
 
 
           // Resize
+          alert("resize")
 
           var canvas = document.createElement('canvas');
           canvas.width = width;
@@ -254,19 +261,22 @@ export default {
           var ctx = canvas.getContext("2d");
           ctx.drawImage(origImg, 0, 0, width, height);
 
-          var resizedFile = this.base64ToFile(canvas.toDataURL(), origFile);
+          var resizedFile = app.base64ToFile(canvas.toDataURL(), origFile);
 
 
           // Replace original with resized
 
-          var origFileIndex = dropzone.files.indexOf(origFile);
-          dropzone.files[origFileIndex] = resizedFile;
+          var origFileIndex = dropzone.dropzone.files.indexOf(origFile);
+          dropzone.dropzone.files[origFileIndex] = resizedFile;
 
 
           // Enqueue added file manually making it available for
           // further processing by dropzone
+      //    console.log("DZ",dropzone)
 
-          dropzone.enqueueFile(resizedFile);
+        //  dropzone.enqueueFile(resizedFile);
+        //https://stackoverflow.com/questions/48225489/how-can-i-enqueue-a-file-manually-in-dropzone-vue-dropzone-2
+          dropzone.dropzone.enqueueFile(resizedFile)
         });
       });
 
