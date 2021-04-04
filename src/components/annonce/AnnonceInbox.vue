@@ -88,11 +88,11 @@ export default {
         this.inboxAnnonceFolder = await `${inboxFolder}`+"annonces/"
         this.acl.status = "imagining a annonce folder"
         console.log(this.webId, this.inboxAnnonceFolder)
-        await this.checkAcl()
+        await this.checkAcl("first run")
         this.readInbox()
       }
     },
-    async checkAcl(){
+    async checkAcl(step){
       // create inbox annonce folder if not exist
       this.acl.status = "checking if folder exist"
       if( !(await fc.itemExists(this.inboxAnnonceFolder)) ) {
@@ -102,11 +102,11 @@ export default {
       // check aclObject
       this.acl.status = "cheching authorizations"
       this.acl.aclObject = await fc.aclUrlParser(this.inboxAnnonceFolder)
-      console.log("aclObject",JSON.stringify(this.acl.aclObject, undefined,2))
+      console.log(step,"aclObject on ",this.inboxAnnonceFolder,JSON.stringify(this.acl.aclObject, undefined,2))
       // create Content from aclObject
       this.acl.aclContent = await fc.acl.createContent(this.inboxAnnonceFolder, this.acl.aclObject/*, options*/)
-      console.log("aclcontent", this.acl.aclContent)
-      console.log("acl", this.acl)
+      console.log(step,"aclcontent on ",this.inboxAnnonceFolder, this.acl.aclContent)
+      console.log(step,"aclon ",this.inboxAnnonceFolder, this.acl)
       // say they are KO for the moment as i can't verify see issue : https://github.com/jeff-zucker/solid-file-client/issues/189#issuecomment-812887070
       this.acl.status = "KO"
     },
@@ -131,7 +131,8 @@ export default {
         //  console.log(links)
         let result = await fc.putFile(aclUrl, aclContentNew, 'text/turtle')
         console.log("result",result)
-        this.acl.status = "OK"
+        //this.acl.status = "OK"
+        await this.checkAcl("after update")
       }catch(e){
         this.acl.status = "ERROR : "+e
         alert(e)
