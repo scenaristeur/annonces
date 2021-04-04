@@ -71,6 +71,23 @@ label="Images:"
 label-for="input-images"
 description="Add some images for a better description & visibility"
 >
+
+
+
+
+<!-- @vdropzone-success-multiple="vsuccessMuliple"
+@vdropzone-sending-multiple="vsendingMuliple"
+@vdropzone-queue-complete="vqueueComplete"
+@vdropzone-total-upload-progress="vprogress"
+@vdropzone-mounted="vmounted"
+@vdropzone-drop="vddrop"
+@vdropzone-drag-start="vdstart"
+@vdropzone-drag-end="vdend"
+@vdropzone-drag-enter="vdenter"
+@vdropzone-drag-over="vdover"
+@vdropzone-drag-leave="vdleave"
+@vdropzone-duplicate-file="vdduplicate" -->
+<!-- <vueDropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"></vueDropzone> -->
 <Upload id="input-images" :images="annonce.images" @imagesUploaded="imagesUploaded"/>
 <!-- <b-form-input
 id="input-title"
@@ -88,6 +105,24 @@ required
   <b-button class="ml-2" variant="secondary" @click="goBack()">back</b-button>
 </div>
 </b-form>
+
+
+---------------------------
+test dropzone not activated yet , don't use
+
+<vueDropzone ref="myVueDropzone" id="dropzone"
+@vdropzone-file-added="vfileAdded"
+@vdropzone-success="vsuccess"
+@vdropzone-error="verror"
+@vdropzone-removed-file="vremoved"
+@vdropzone-sending="vsending"
+
+:options="dropzoneOptions"
+:duplicateCheck="true">
+</vueDropzone>
+
+
+
 </div>
 <div v-else>
   You must login to manage your annonces.
@@ -96,6 +131,11 @@ required
 </template>
 
 <script>
+
+
+
+import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+
 import {Annonce} from './Annonce'
 
 
@@ -103,11 +143,39 @@ export default {
   name: "AnnonceEdit",
   components: {
     'Upload': () => import('@/components/portfolio/Upload'),
+    'vueDropzone': () => import('vue2-dropzone')
   },
   data(){
     return{
       annonce: null,
-      files: null
+      files: null,
+      dropzoneOptions: {
+        url: 'https://httpbin.org/post',
+        thumbnailWidth: 100,
+        maxFilesize: 0.5,
+        headers: { "My-Awesome-Header": "header value" },
+        addRemoveLinks: true
+      },
+      // fileAdded: false,
+      // filesAdded: false,
+      // success: false,
+      // error: false,
+      // removedFile: false,
+      // sending: false,
+      // successMultiple: false,
+      // sendingMultiple: false,
+      // queueComplete: false,
+      // uploadProgress: false,
+      // progress: false,
+      // myProgress: 0,
+      // isMounted: false,
+      // dDrop: false,
+      // dStarted: false,
+      // dEnded: false,
+      // dEntered: false,
+      // dOver: false,
+      // dLeave: false,
+      // dDuplicate:false
     }
   },
   created(){
@@ -116,6 +184,24 @@ export default {
     this.annonce.images == undefined ? this.annonce.images = [] : ""
   },
   methods: {
+    vfileAdded(file){
+      console.log(file)
+    },
+    vsuccess(file){
+      console.log(file)
+    },
+    verror(file){
+      console.log(file)
+    },
+    vremoved(file){
+      console.log(file)
+    },
+    vsending(file){
+      console.log(file)
+    },
+
+
+
     add() {
       if (this.annonce.title.length < 1){
         alert("Title must not be empty !")

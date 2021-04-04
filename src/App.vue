@@ -55,7 +55,7 @@
   <SolidSession />
 </b-container>
 
-<router-link to="/scan"><small>Scan (experimental)</small></router-link>
+<router-link to="/scan"><small>Scan (experimental)</small></router-link>1
 </div>
 </template>
 <script>
