@@ -3,6 +3,11 @@
     <h5>Acl for {{ path }} : </h5>
     <div v-if="acl.status != 'OK'">
       <h5>ACL / Authorization verification : </h5>
+
+      <b-badge :variant="acl.color">{{acl.status}}</b-badge>
+      <b-badge :variant="acl.color">{{acl.message}}</b-badge>
+
+
       <p>
         To allow other Authenticated Users to send you inbox message, you have to set correct Authorizations for <b-badge variant="warning">{{ path }}</b-badge> as i'm not sure the are good :
         <ul>
@@ -25,7 +30,7 @@
           <b-list-group>
             <b-list-group-item v-for="(aclAuth,i) in acl.aclObject" :key="i">
               <div v-if="aclAuth">
-              aclAuth is ARRAY ?   {{ Array.isArray(aclAuth)}}
+                aclAuth is ARRAY ?   {{ Array.isArray(aclAuth)}}
                 <div v-for="(value, k) in Object.entries(aclAuth)" :key="k">
                   <div v-if="value[1].mode">
                     <h5>{{value[0].split('&')[0]}} : <b-badge variant="warning">{{value[0].split('&')[1]}}</b-badge></h5>
@@ -98,19 +103,86 @@ import auth from 'solid-auth-client';
 import FC from 'solid-file-client'
 const fc = new FC( auth )
 
+// import {
+//   getPublicAccess,
+// } from "@inrupt/solid-client/access/universal";
+// import * as jsonld from 'jsonld';
+//import * as ttl2jsonld from '@frogcat/ttl2jsonld';
+
 
 export default {
   name: "AclCheck",
   props: ['path', 'authorizations', 'webId'],
   data() {
     return {
-      acl: {status: "checking"}
+      acl: {status: "init", message: "I will check authorizations", color: "danger"}
     }
   },
   async created(){
     this.init()
   },
   methods: {
+    // async init(){
+    //   if (this.webId != null && this.path.length > 0){
+    //     getPublicAccess(this.path).then(access => {
+    //       // => access is an object like
+    //       //    {
+    //       //       read: true, append: false, write: false,
+    //       //       controlRead: false, controlWrite: false
+    //       //    }
+    //       //    or null if the ACL is not accessible to the current user.
+    //       if (access === null) {
+    //         console.log("Could not load access details for this Resource.")
+    //       } else {
+    //         console.log(
+    //           "Can everyone read this Resource:",
+    //           access.read,
+    //         );
+    //         console.log(
+    //           "Can everyone add data to this Resource:",
+    //           access.append,
+    //         );
+    //         console.log(
+    //           "Can everyone change data in this Resource:",
+    //           access.write,
+    //         );
+    //         console.log(
+    //           "Can everyone see and change who has what access to this Resource:",
+    //           access.controlRead && access.controlWrite,
+    //         );
+    //       }
+    //     });
+    //   }
+    // },
+    // async init1(){
+    //   if (this.webId != null && this.path != undefined && this.path.length > 0){
+    //     let folder = await fc.readFolder( this.path, {links:"include"} )
+    //     console.log(folder)
+    //     if(folder.links.acl!= undefined){
+    //       this.acl.message = "ACL FOUND"
+    //     //  this.loadJsonld(folder.links.acl)
+    //     }else{
+    //       //console.log("NO ACL FOUND")
+    //       this.acl.status = "KO"
+    //       this.acl.message = "NO ACL FOUND"
+    //     }
+    //
+    //   }
+    // },
+    // async loadJsonld(s){
+    //   console.log(s)
+    //   let documentLoaderType = 'xhr'
+    //   await jsonld.useDocumentLoader(documentLoaderType, {withCredentials : true});
+    //   let doc = await jsonld.documentLoader(s, function(err) {
+    //     if(err) {
+    //       alert(err)
+    //     }
+    //   })
+    //   doc.jsonld = JSON.parse(doc.document)
+    //   delete doc.document
+    //   console.log(doc)
+    //   //await this.ldpToGraph(doc)
+    // },
     async init(){
       if (this.webId != null && this.path.length > 0){
         this.acl.status = "imagining a annonce folder"
@@ -120,9 +192,30 @@ export default {
           this.acl.status = "creating folder"
           await fc.createFolder(this.path) // only create if it doesn't already exist
         }
-        await this.checkAcl("first run")
+         await this.checkAcl("first run")
+        // let folder = await fc.readFolder( this.path, {links:"include"} )
+        // console.log(folder)
+        // if(folder.links.acl!= undefined){
+        //   this.acl.message = "ACL FOUND"
+        //   let url = folder.links.acl
+        //   //    let url = "https://spoggy-test9.solidcommunity.net/public/.acl"
+        //   let aclContent = await fc.readFile(url)
+        //   const jsonld = ttl2jsonld.parse(aclContent);
+        //   console.log(jsonld)
+        //   console.log(JSON.stringify(jsonld,null,2));
+        //   console.log(jsonld['@graph'])
+        //   jsonld['@graph'].forEach(auth => {
+        //     console.log(auth)
+        //   });
 
-      }
+          //  this.loadJsonld(folder.links.acl)
+        }else{
+          //console.log("NO ACL FOUND")
+          this.acl.status = "KO"
+          this.acl.message = "NO ACL FOUND"
+        }
+
+    //  }
     },
     async checkAcl(step){
       // create inbox annonce folder if not exist
@@ -138,6 +231,11 @@ export default {
       console.log(step,"aclon ",this.path, this.acl)
       // say they are KO for the moment as i can't verify see issue : https://github.com/jeff-zucker/solid-file-client/issues/189#issuecomment-812887070
       this.acl.status = "KO"
+      console.log(this.acl.aclObject)
+      this.acl.aclObject.forEach((aclAuth) => {
+        console.log(aclAuth)
+      });
+
     },
 
     async setAcl(){
