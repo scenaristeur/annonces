@@ -4,11 +4,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bon-prix/404.html"
   },
   {
-    "revision": "1715c92b531212ac3df8",
+    "revision": "bf2abf076e70294f40f9",
     "url": "/bon-prix/css/annonceEdit.3435b2aa.css"
   },
   {
-    "revision": "d4a934ab6640e7522943",
+    "revision": "43f07e42b13ace01602d",
     "url": "/bon-prix/css/app.6a08b6dd.css"
   },
   {
@@ -20,11 +20,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bon-prix/css/chunk-vendors.3309f7e5.css"
   },
   {
-    "revision": "4711d142fe65147e706b",
+    "revision": "90d871376260768301c2",
     "url": "/bon-prix/css/scan.b324cdc4.css"
   },
   {
-    "revision": "c33df8acfe38f30fd4f6b49dae6840a0",
+    "revision": "c929082ee3cc769aced7a7d1834bf2c1",
     "url": "/bon-prix/index.html"
   },
   {
@@ -32,20 +32,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bon-prix/js/about.52eac858.js"
   },
   {
-    "revision": "1715c92b531212ac3df8",
-    "url": "/bon-prix/js/annonceEdit.b7b28afa.js"
+    "revision": "bf2abf076e70294f40f9",
+    "url": "/bon-prix/js/annonceEdit.a1b6e5bf.js"
   },
   {
     "revision": "d3a3cad540dd5742cfca",
     "url": "/bon-prix/js/annonceList.13dd722f.js"
   },
   {
-    "revision": "d4a934ab6640e7522943",
-    "url": "/bon-prix/js/app.0449b07c.js"
-  },
-  {
-    "revision": "70c84896a532d6ddb102",
-    "url": "/bon-prix/js/chunk-099e1cb1.e748eedc.js"
+    "revision": "43f07e42b13ace01602d",
+    "url": "/bon-prix/js/app.11989357.js"
   },
   {
     "revision": "5ad1a0d8dfabeef5bdca",
@@ -80,8 +76,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bon-prix/js/chunk-3a0d1297.0c745019.js"
   },
   {
+    "revision": "f9f9c173adc62492dabd",
+    "url": "/bon-prix/js/chunk-6501e0ee.30f0ac56.js"
+  },
+  {
     "revision": "6df824af907d1464201a",
     "url": "/bon-prix/js/chunk-949776d4.ad22ba5f.js"
+  },
+  {
+    "revision": "ba27c8c92afb91614d58",
+    "url": "/bon-prix/js/chunk-af80c1a8.3a5c7540.js"
   },
   {
     "revision": "a864ac1cc689ea4ee3a0",
@@ -100,8 +104,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bon-prix/js/inbox.5ba25bff.js"
   },
   {
-    "revision": "4711d142fe65147e706b",
-    "url": "/bon-prix/js/scan.c10b04e6.js"
+    "revision": "90d871376260768301c2",
+    "url": "/bon-prix/js/scan.6920ab80.js"
   },
   {
     "revision": "94e919648d74d1169167d029c517eb07",
