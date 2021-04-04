@@ -88,7 +88,8 @@ description="Add some images for a better description & visibility"
 @vdropzone-drag-leave="vdleave"
 @vdropzone-duplicate-file="vdduplicate" -->
 <!-- <vueDropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"></vueDropzone> -->
-<Upload id="input-images" :images="annonce.images" @imagesUploaded="imagesUploaded"/>
+<!-- <Upload id="input-images" :images="annonce.images" @imagesUploaded="imagesUploaded"/> -->
+
 <!-- <b-form-input
 id="input-title"
 v-model="annonce.title" :state="getState()" autofocus
@@ -96,20 +97,9 @@ placeholder="Enter annonce title"
 required
 ></b-form-input> -->
 </b-form-group>
-<p>If you add images, don't forget to hit the "send" button before hitting the "save" one.</p>
+<!-- <p>If you add images, don't forget to hit the "send" button before hitting the "save" one.</p> -->
 
 
-<div class="d-flex">
-
-  <b-button class="ml-auto" variant="info" @click="add()">save</b-button>
-  <b-button class="ml-2" variant="secondary" @click="goBack()">back</b-button>
-</div>
-</b-form>
-
-
----------------------------
-test dropzone not activated yet , don't use
-resized
 
 <vueDropzone ref="myVueDropzone" id="dropzone"
 @vdropzone-file-added="vfileAdded"
@@ -117,10 +107,33 @@ resized
 @vdropzone-error="verror"
 @vdropzone-removed-file="vremoved"
 @vdropzone-sending="vsending"
+@vdropzone-success-multiple="vsuccessMuliple"
+@vdropzone-sending-multiple="vsendingMuliple"
+@vdropzone-queue-complete="vqueueComplete"
+
 
 :options="dropzoneOptions"
 :duplicateCheck="true">
 </vueDropzone>
+<p>Files will be automatically upload at <small><a :href="path" target="_blank">{{ path }}</a></small></p>
+
+
+
+
+<div class="d-flex" >
+
+  <b-button class="ml-auto" variant="info" @click="add()" disbled="numberOfFiles != 0">save</b-button>
+  <b-button class="ml-2" variant="secondary" @click="goBack()">back</b-button>
+</div>
+</b-form>
+
+
+
+<!-- <Pica /> -->
+
+
+
+
 
 
 
@@ -134,8 +147,13 @@ resized
 <script>
 
 
-
+let ldflex = window.solid
+import FC from 'solid-file-client'
+const fc = new FC( window.solid.auth )
+import watermark from 'watermarkjs'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+//dropzone with pica https://stackoverflow.com/questions/66441805/using-dropzone-js-with-pica-or-other-image-compression-resize-libraries
+// custom preview https://rowanwins.github.io/vue-dropzone/docs/dist/index.html#/custom-preview
 
 import {Annonce} from './Annonce'
 
@@ -143,20 +161,23 @@ import {Annonce} from './Annonce'
 export default {
   name: "AnnonceEdit",
   components: {
-    'Upload': () => import('@/components/portfolio/Upload'),
-    'vueDropzone': () => import('vue2-dropzone')
+    //  'Upload': () => import('@/components/portfolio/Upload'),
+    'vueDropzone': () => import('vue2-dropzone'),
+    //  'Pica': () => import('@/components/annonce/Pica')
   },
   data(){
     return{
       annonce: null,
       files: null,
+      path: "",
+      numberOfFiles: 0,
       dropzoneOptions: {
-        url: 'https://httpbin.org/post',
+        url: 'https://spoggy-test4.solidcommunity.net/public/portfolio/',
         //thumbnailWidth: 200,
-        maxFilesize: 0.5,
-        headers: { "My-Awesome-Header": "header value" },
+        maxFilesize: 1,
+        headers: { "withCredentials": true },
         addRemoveLinks: true,
-        resizeWidth: 100,
+        //  resizeWidth: 200,
         autoQueue: false,
         //  resizeHeight: 400,
       },
@@ -182,17 +203,24 @@ export default {
       // dDuplicate:false
     }
   },
-  created(){
+  async created(){
     console.log(this.$route.params.id)
     this.annonce = this.$route.params.id != undefined ?  this.annoncesMy.find(x => x.id === this.$route.params.id): new Annonce()
     this.annonce.images == undefined ? this.annonce.images = [] : ""
+    let storage = await ldflex.data.user.storage
+    this.path = `${storage}`+'public/portfolio/'
+    //  this.$refs.myVueDropzone.options.url =this.path
+
   },
   methods: {
     // vfileAdded(file){
     //   console.log(file)
     // },
-    vsuccess(file){
+    async vsuccess(file){
       console.log(file)
+      //  this.files.push(file)
+
+      //  this.annonce.images = images
     },
     verror(file){
       console.log(file)
@@ -200,16 +228,58 @@ export default {
     vremoved(file){
       console.log(file)
     },
-    vsending(file){
+    async vsending1(file){
       console.log(file)
     },
+    async vsending(file){
+      console.log(file)
+      this.numberOfFiles--
+      try{
+        console.log("success", this.numberOfFiles,file)
+        let uri = encodeURI(this.path+file.name)
+        console.log(uri)
+
+        watermark([file])
+        .image(watermark.text.center(this.path, '30px Josefin Slab', '#fff', 0.8))
+        //.then(img => {
+        // img.name = f.name
+        // img.type = f.type
+        // img.width = "250"
+        // img.height = "250"
+        // preview.appendChild(img)});
+
+        //  !app.images.includes(uri) ? app.images.push(uri): ""
+        //  var file = dataURLtoFile(i.src,i.name);
+
+        await fc.createFile(uri, file, file.type)
+        this.annonce.images.push(uri)
+      }catch(e){
+        alert(e)
+      }
+    },
+    vsuccessMuliple(files){
+      console.log("MUILTIPLE SUCCESS",files)
+    },
+    vsendingMuliple(files){
+      console.log("MULTIPLE SENDING",files)
+    },
+    vqueueComplete(files){
+      console.log("QUEUE COMPLETE",files)
+    },
+    vfileAdded1(origFile) {
+      console.log(origFile)
+    },
+
     vfileAdded(origFile) {
+      this.numberOfFiles++
       //https://stackoverflow.com/questions/20533191/dropzone-js-client-side-image-resizing
       let dropzone = this.$refs.myVueDropzone
       //  console.log("DZ1", dropzone)
       let app = this
-      var MAX_WIDTH  = 800;
-      var MAX_HEIGHT = 600;
+      var MAX_WIDTH  = 1024;
+      var MAX_HEIGHT = 768;
+
+      console.log("Orig",origFile)
 
       var reader = new FileReader();
 
@@ -252,7 +322,7 @@ export default {
 
 
           // Resize
-          alert("resize")
+          //  alert("resize")
 
           var canvas = document.createElement('canvas');
           canvas.width = width;
@@ -263,6 +333,7 @@ export default {
 
           var resizedFile = app.base64ToFile(canvas.toDataURL(), origFile);
 
+          console.log("resized",resizedFile)
 
           // Replace original with resized
           console.log(dropzone)

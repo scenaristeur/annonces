@@ -15,7 +15,7 @@
           <div class="d-flex w-100 justify-content-between">
             <h4 class="mb-1">{{a.title}}</h4>
             <!-- <div></div> -->
-            <b-alert show variant="info" v-if="a.price.length > 0"><b>{{a.price}} {{a.currency}}</b></b-alert>
+            <b-alert show variant="info" v-if="a.price != undefined && a.price.length > 0"><b>{{a.price}} {{a.currency}}</b></b-alert>
             <!-- <small>3 days ago</small> -->
             <!-- <b-badge variant="primary" pill class="mr-3"></b-badge> -->
           </div>

@@ -19,6 +19,7 @@
     "bootstrap-vue": "^2.21.2",
     "bootswatch": "^4.6.0",
     "core-js": "^3.10.0",
+    "pica": "^6.1.1",
     "register-service-worker": "^1.7.1",
     "solid-auth-client": "^2.5.5",
     "solid-file-client": "^1.2.4",
