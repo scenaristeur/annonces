@@ -192,7 +192,7 @@ export default {
           this.acl.status = "creating folder"
           await fc.createFolder(this.path) // only create if it doesn't already exist
         }
-         await this.checkAcl("first run")
+        await this.checkAcl("first run")
         // let folder = await fc.readFolder( this.path, {links:"include"} )
         // console.log(folder)
         // if(folder.links.acl!= undefined){
@@ -207,15 +207,16 @@ export default {
         //   jsonld['@graph'].forEach(auth => {
         //     console.log(auth)
         //   });
+        // }
 
-          //  this.loadJsonld(folder.links.acl)
-        }else{
-          //console.log("NO ACL FOUND")
-          this.acl.status = "KO"
-          this.acl.message = "NO ACL FOUND"
-        }
+        //  this.loadJsonld(folder.links.acl)
+      }else{
+        //console.log("NO ACL FOUND")
+        this.acl.status = "KO"
+        this.acl.message = "NO ACL FOUND"
+      }
 
-    //  }
+      //  }
     },
     async checkAcl(step){
       // create inbox annonce folder if not exist
@@ -224,6 +225,10 @@ export default {
       // check aclObject
       this.acl.status = "cheching authorizations"
       this.acl.aclObject = await fc.aclUrlParser(this.path)
+
+// console.log("ME",this.acl.aclObject[0]["agent&https://spoggy-test4.solidcommunity.net/profile/card#me"])
+
+
       console.log(step,"aclObject on ",this.path,JSON.stringify(this.acl.aclObject, undefined,2))
       // create Content from aclObject
       this.acl.aclContent = await fc.acl.createContent(this.path, this.acl.aclObject/*, options*/)
@@ -232,22 +237,122 @@ export default {
       // say they are KO for the moment as i can't verify see issue : https://github.com/jeff-zucker/solid-file-client/issues/189#issuecomment-812887070
       this.acl.status = "KO"
       console.log(this.acl.aclObject)
-      this.acl.aclObject.forEach((aclAuth) => {
-        console.log(aclAuth)
-      });
+      if (Array.isArray(this.acl.aclObject)){
+        let auths = []
 
+        this.acl.aclObject.forEach((aclAuth) => {
+          console.log(aclAuth)
+          for (const [key, value] of Object.entries(aclAuth)) {
+            console.log(key, value);
+            let keysSplit = key.split('&')
+            auths[keysSplit[0]] == undefined ? auths[keysSplit[0]] = {[keysSplit[1]]: []} : ""
+            auths[keysSplit[0]][keysSplit[1]] == undefined ? auths[keysSplit[0]][keysSplit[1]] = [value] : auths[keysSplit[0]][keysSplit[1]].push(value)
+            // formate to [{ agent: this.webId }], ['Read', 'Write', 'Control'], ['accessTo', 'default']
+            //or [{ agentClass: 'AuthenticatedAgent' }], ['Append', 'Read'], ['accessTo']
+            // let agent = {}
+            // let mode= []
+            // let access= []
+            //
+            // agent[value.agent.predicate] = value.agent.object
+            // for (const [m, v] of Object.entries(value.mode)) {
+            //   v == 1 ? mode.push(m) : ""
+            // }
+            // for (const [a, v] of Object.entries(value.access)) {
+            //   v == 1 ? access.push(a) : ""
+            // }
+            //
+            // let auth = [[agent], mode,  access]
+            // auths.push(auth)
+
+          }
+
+
+        });
+        console.log("AUTHS",auths)
+
+        console.log(JSON.stringify(auths,null,2));
+
+
+        // let b = [
+        //   [
+        //     [
+        //       {
+        //         "agent": "https://spoggy-test4.solidcommunity.net/profile/card#me"
+        //       }
+        //     ],
+        //     [
+        //       "Read",
+        //       "Write",
+        //       "Control"
+        //     ],
+        //     [
+        //       "accessTo",
+        //       "default"
+        //     ]
+        //   ],
+        //   [
+        //     [
+        //       {
+        //         "agentClass": "AuthenticatedAgent"
+        //       }
+        //     ],
+        //     [
+        //       "Append"
+        //     ],
+        //     [
+        //       "default"
+        //     ]
+        //   ],
+        //   [
+        //     [
+        //       {
+        //         "agentClass": "AuthenticatedAgent"
+        //       }
+        //     ],
+        //     [
+        //       "Read",
+        //       "Append"
+        //     ],
+        //     [
+        //       "accessTo"
+        //     ]
+        //   ]
+        // ]
+        //
+        // if (auths === b){
+        //   this.acl.status = "OK"
+        //   this.acl.message = "ACL IS OK"
+        // }
+
+        //  console.log("RESULT",result);
+
+
+      }else{
+        console.log("is not ARRAY")
+        this.acl.status = "KO"
+        this.acl.message = "is not an array"
+      }
+
+      //let mode = await window.aclMode(this.path, this.acl.aclContent, /*options*/)
+      //console.log(window)
     },
+    // comparer(otherArray){
+    //   return function(current){
+    //     return otherArray.filter(function(other){
+    //       return other.value == current.value && other.display == current.display
+    //     }).length == 0;
+    //   }
+    // },
 
     async setAcl(){
       // according to recent solid-file-client changes : https://github.com/jeff-zucker/solid-file-client/issues/189#issuecomment-808966875
       try{
         this.acl.status = "setting authorizations"
-        let   aclUsers1 = await fc.acl.addUserMode({}, [{ agent: this.webId }], ['Read', 'Write', 'Control'], ['accessTo', 'default'])
-        aclUsers1 = await fc.acl.addUserMode(aclUsers1, [{ agentClass: 'AuthenticatedAgent' }], ['Append'], ['default'])
-
+        const aclOwner = await fc.acl.addUserMode({}, [{ agent: this.webId }], ['Read', 'Write', 'Control'], ['accessTo', 'default'])
+        const aclUsers1 = await fc.acl.addUserMode({}, [{ agentClass: 'AuthenticatedAgent' }], ['Append'], ['default'])
         const aclUsers2 = await fc.acl.addUserMode({}, [{ agentClass: 'AuthenticatedAgent' }], ['Append', 'Read'], ['accessTo'])
 
-        const aclUsers = [aclUsers1, aclUsers2]
+        const aclUsers = [aclOwner, aclUsers1, aclUsers2]
 
         const aclContentNew = await fc.acl.createContent(this.path, aclUsers)
         console.log('build an aclContent ' + aclContentNew)
@@ -337,6 +442,8 @@ export default {
       //   console.log("result",result)
 
     },
+
+
   },
   watch:{
     webId(){

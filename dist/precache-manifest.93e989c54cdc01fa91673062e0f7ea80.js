@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bon-prix/css/annonceEdit.3435b2aa.css"
   },
   {
-    "revision": "7aeff5a341a2c2af67ae",
+    "revision": "d25531bef9c4024117e5",
     "url": "/bon-prix/css/app.6a08b6dd.css"
   },
   {
@@ -24,7 +24,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bon-prix/css/scan.b324cdc4.css"
   },
   {
-    "revision": "4f1b9484a8cd74ec6125bbbc6cf9e17c",
+    "revision": "d715755cf9b237d49374c02015e2ae4b",
     "url": "/bon-prix/index.html"
   },
   {
@@ -40,8 +40,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bon-prix/js/annonceList.aa445c77.js"
   },
   {
-    "revision": "7aeff5a341a2c2af67ae",
-    "url": "/bon-prix/js/app.9db2d44e.js"
+    "revision": "d25531bef9c4024117e5",
+    "url": "/bon-prix/js/app.b9de93ce.js"
   },
   {
     "revision": "0def3d10baa6d726667d",
@@ -72,24 +72,24 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bon-prix/js/chunk-2d226c5a.a6585563.js"
   },
   {
-    "revision": "0496507ef57fed8d7581",
-    "url": "/bon-prix/js/chunk-2d2315f6.bd4d71e5.js"
+    "revision": "2a7cdf2307aef09d6864",
+    "url": "/bon-prix/js/chunk-2d2315f6.569b7022.js"
   },
   {
     "revision": "5f46258e18fcf724988f",
     "url": "/bon-prix/js/chunk-3a0d1297.318c7c25.js"
   },
   {
-    "revision": "611658626dfce9c1bac7",
-    "url": "/bon-prix/js/chunk-4af81456.7fbdf8da.js"
-  },
-  {
-    "revision": "ba87c581b22130065384",
-    "url": "/bon-prix/js/chunk-6855f128.13af52de.js"
+    "revision": "b323e4953ec743613456",
+    "url": "/bon-prix/js/chunk-3d0f94ce.b354caaa.js"
   },
   {
     "revision": "4730f37f9b8e3cb6bbd6",
     "url": "/bon-prix/js/chunk-6e3b78df.d49c5784.js"
+  },
+  {
+    "revision": "53559897702de2f11441",
+    "url": "/bon-prix/js/chunk-949776d4.35625387.js"
   },
   {
     "revision": "b194d556790a936911af",
@@ -104,8 +104,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/bon-prix/js/detail.c0477e8b.js"
   },
   {
-    "revision": "c760369a5908905bd96b",
-    "url": "/bon-prix/js/inbox.d3c98123.js"
+    "revision": "bf5314490565a4560a00",
+    "url": "/bon-prix/js/inbox.ebc89e45.js"
   },
   {
     "revision": "81bba7fe496d87c0e6b0",
