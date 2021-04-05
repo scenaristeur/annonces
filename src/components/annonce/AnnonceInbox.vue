@@ -20,6 +20,8 @@
           </b-button>
         </b-list-group-item>
 
+
+
         <b-modal id="message-delete" centered title="Delete" @ok="onDelete">
           <div class="p-3" v-html="deleteMessage"></div>
         </b-modal>
@@ -54,7 +56,7 @@ export default {
       messages: [],
       deleteMessage: "",
       inboxAnnonceFolder: "",
-      authorizations: [],
+      authorizations: null
       //  acl: {status: "checking"}
     }
   },
@@ -75,10 +77,55 @@ export default {
         if( !(await fc.itemExists(this.inboxAnnonceFolder)) ) {
           await fc.createFolder(this.inboxAnnonceFolder) // only create if it doesn't already exist
         }
+        this.buildAuthorization()
       }
       this.readInbox()
     },
-
+buildAuthorization(){
+  this.authorizations= `{
+    "${this.inboxAnnonceFolder}": {
+      "accessTo": {
+        "${this.webId}": {
+          "type": "agent",
+          "mode": {
+            "Read": 1,
+            "Append": 0,
+            "Write": 1,
+            "Control": 1
+          }
+        },
+        "AuthenticatedAgent": {
+          "type": "agentClass",
+          "mode": {
+            "Read": 1,
+            "Append": 1,
+            "Write": 0,
+            "Control": 0
+          }
+        }
+      },
+      "default": {
+        "${this.webId}": {
+          "type": "agent",
+          "mode": {
+            "Read": 1,
+            "Append": 0,
+            "Write": 1,
+            "Control": 1
+          }
+        },
+        "AuthenticatedAgent": {
+          "type": "agentClass",
+          "mode": {
+            "Read": 0,
+            "Append": 1,
+            "Write": 0,
+            "Control": 0
+          }
+        }
+      }
+  }}`
+},
     async readInbox() {
       if (this.inboxAnnonceFolder != undefined && this.inboxAnnonceFolder.length > 0){
         let folder = await fc.readFolder(this.inboxAnnonceFolder)
