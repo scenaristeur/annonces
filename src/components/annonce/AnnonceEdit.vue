@@ -2,6 +2,9 @@
   <b-container>
     <div v-if="webId != null">
       <h3>Add an Annonce</h3>
+      <div class="d-flex">
+        <b-button variant="info" class="ml-auto" to="/my_annonces">My annonces</b-button>
+      </div>
       <b-form>
 
         <b-form-group
@@ -100,6 +103,11 @@ required
 <!-- <p>If you add images, don't forget to hit the "send" button before hitting the "save" one.</p> -->
 
 
+<div>
+<!-- <img v-for="i in annonce.images" :key="i" :src="i" width="200px" /> -->
+<b-img v-for="i in annonce.images" :key="i" :src="i" width="200px" fluid thumbnail  :alt="i"></b-img>
+
+</div>
 
 <vueDropzone ref="myVueDropzone" id="dropzone"
 @vdropzone-file-added="vfileAdded"
@@ -363,7 +371,8 @@ export default {
       }
       console.log(this.annonce)
       this.$store.dispatch('annonce/update', this.annonce)
-      this.$router.go(-1)
+      //  this.$router.go(-1)
+      this.$router.push('/inbox')
     },
     goBack(){
       this.$router.go(-1)
@@ -421,5 +430,8 @@ export default {
 </script>
 
 <style>
-
+/* .dz-success-mark, */
+#dropzone  .dz-error-mark, .dz-remove {
+  display: none;
+}
 </style>

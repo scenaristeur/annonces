@@ -40,11 +40,12 @@
     </b-alert>
 
     <small v-if="a.date != undefined">{{new Date(a.date).toLocaleDateString()}}</small>
-
-    <div v-for="i in a.images" :key="i">
+<hr>
+    <!-- <div v-for="i in a.images" :key="i">
       <b-card-img :src="i" alt="Image"   style="max-width: 20rem;"
       class="mb-2" bottom></b-card-img>
-    </div>
+    </div> -->
+    <b-img v-for="i in a.images" :key="i" :src="i" width="200px" fluid thumbnail :alt="i"></b-img>
     <!-- {{ a.images }} -->
 
   </b-card>

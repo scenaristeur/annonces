@@ -3,7 +3,9 @@
     <div>
       <b-navbar toggleable="lg" type="dark" variant="info">
         <b-navbar-brand to="/">Bon-Prix</b-navbar-brand>
+
         <SolidLoginButton v-if="webId == null"/>
+        <b-button variant="warning" v-else to="/edit" title="Add an annonce">+ Add an annonce</b-button>
 
 
 
@@ -12,6 +14,7 @@
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
             <b-nav-item to="/">Home</b-nav-item>
+
             <b-nav-item to="/my_annonces">My annonces</b-nav-item>
             <b-nav-item to="/inbox">Inbox</b-nav-item>
             <b-nav-item to="/config">Config</b-nav-item>
