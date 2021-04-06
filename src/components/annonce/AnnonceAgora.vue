@@ -1,24 +1,15 @@
 <template>
   <div>
-
-
-
-
-<!-- 
+<!--
     Agora's Annonces | <router-link :to="{ name: 'Config'}">config</router-link> -->
 
     <!-- <TimeScroller start="03/02/2021" :root="this.temp_url" :step="step" extension="ttl" /> -->
     <TimeLoader :root="this.temp_url" start="03/22/2021" />
 
-
-
-
     <!-- <b-list-group>
     <b-list-group-item button v-for="a in annonces" :key="a.url">
     <AnnonceLine :annonce="a" />
   </b-list-group-item>
-
-
 </b-list-group> -->
 
 </div>

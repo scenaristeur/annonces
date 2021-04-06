@@ -104,8 +104,8 @@ required
 
 
 <div>
-<!-- <img v-for="i in annonce.images" :key="i" :src="i" width="200px" /> -->
-<b-img v-for="i in annonce.images" :key="i" :src="i" width="200px" fluid thumbnail  :alt="i"></b-img>
+  <!-- <img v-for="i in annonce.images" :key="i" :src="i" width="200px" /> -->
+  <b-img v-for="i in annonce.images" :key="i" :src="i" width="200px" fluid thumbnail  :alt="i"></b-img>
 
 </div>
 
@@ -212,220 +212,230 @@ export default {
     }
   },
   async created(){
-    console.log(this.$route.params.id)
-    this.annonce = this.$route.params.id != undefined ?  this.annoncesMy.find(x => x.id === this.$route.params.id): new Annonce()
-    this.annonce.images == undefined ? this.annonce.images = [] : ""
-    let storage = await ldflex.data.user.storage
-    this.path = `${storage}`+'public/portfolio/'
+    this.init()
     //  this.$refs.myVueDropzone.options.url =this.path
 
   },
   methods: {
-    // vfileAdded(file){
-    //   console.log(file)
-    // },
-    async vsuccess(file){
-      console.log(file)
-      //  this.files.push(file)
-
-      //  this.annonce.images = images
-    },
-    verror(file){
-      console.log(file)
-    },
-    vremoved(file){
-      console.log(file)
-    },
-    async vsending1(file){
-      console.log(file)
-    },
-    async vsending(file){
-      console.log(file)
-      this.numberOfFiles--
-      try{
-        console.log("success", this.numberOfFiles,file)
-        let uri = encodeURI(this.path+file.name)
-        console.log(uri)
-
-        watermark([file])
-        .image(watermark.text.center(this.path, '30px Josefin Slab', '#fff', 0.8))
-        //.then(img => {
-        // img.name = f.name
-        // img.type = f.type
-        // img.width = "250"
-        // img.height = "250"
-        // preview.appendChild(img)});
-
-        //  !app.images.includes(uri) ? app.images.push(uri): ""
-        //  var file = dataURLtoFile(i.src,i.name);
-
-        await fc.createFile(uri, file, file.type)
-        this.annonce.images.push(uri)
-      }catch(e){
-        alert(e)
-      }
-    },
-    vsuccessMuliple(files){
-      console.log("MUILTIPLE SUCCESS",files)
-    },
-    vsendingMuliple(files){
-      console.log("MULTIPLE SENDING",files)
-    },
-    vqueueComplete(files){
-      console.log("QUEUE COMPLETE",files)
-    },
-    vfileAdded1(origFile) {
-      console.log(origFile)
-    },
-
-    vfileAdded(origFile) {
-      this.numberOfFiles++
-      //https://stackoverflow.com/questions/20533191/dropzone-js-client-side-image-resizing
-      let dropzone = this.$refs.myVueDropzone
-      //  console.log("DZ1", dropzone)
-      let app = this
-      var MAX_WIDTH  = 1024;
-      var MAX_HEIGHT = 768;
-
-      console.log("Orig",origFile)
-
-      var reader = new FileReader();
-
-      // Convert file to img
-
-      reader.addEventListener("load", function(event) {
-
-        var origImg = new Image();
-        origImg.src = event.target.result;
-
-        origImg.addEventListener("load", function(event) {
-
-          var width  = event.target.width;
-          var height = event.target.height;
-
-
-          // Don't resize if it's small enough
-
-          if (width <= MAX_WIDTH && height <= MAX_HEIGHT) {
-            // dropzone.enqueueFile(origFile);
-            //https://stackoverflow.com/questions/48225489/how-can-i-enqueue-a-file-manually-in-dropzone-vue-dropzone-2
-            dropzone.dropzone.enqueueFile(origFile)
-            return;
-          }
-
-
-          // Calc new dims otherwise
-
-          if (width > height) {
-            if (width > MAX_WIDTH) {
-              height *= MAX_WIDTH / width;
-              width = MAX_WIDTH;
-            }
-          } else {
-            if (height > MAX_HEIGHT) {
-              width *= MAX_HEIGHT / height;
-              height = MAX_HEIGHT;
-            }
-          }
-
-
-          // Resize
-          //  alert("resize")
-
-          var canvas = document.createElement('canvas');
-          canvas.width = width;
-          canvas.height = height;
-
-          var ctx = canvas.getContext("2d");
-          ctx.drawImage(origImg, 0, 0, width, height);
-
-          var resizedFile = app.base64ToFile(canvas.toDataURL(), origFile);
-
-          console.log("resized",resizedFile)
-
-          // Replace original with resized
-          console.log(dropzone)
-          var origFileIndex = dropzone.dropzone.files.indexOf(origFile);
-          dropzone.dropzone.files[origFileIndex] = resizedFile;
-
-
-          // Enqueue added file manually making it available for
-          // further processing by dropzone
-          //    console.log("DZ",dropzone)
-
-          //  dropzone.enqueueFile(resizedFile);
-          //https://stackoverflow.com/questions/48225489/how-can-i-enqueue-a-file-manually-in-dropzone-vue-dropzone-2
-          dropzone.dropzone.enqueueFile(resizedFile)
-        });
-      });
-
-      reader.readAsDataURL(origFile);
-    },
-
-
-
-    add() {
-      if (this.annonce.title.length < 1){
-        alert("Title must not be empty !")
-        return
-      }
-      console.log(this.annonce)
-      this.$store.dispatch('annonce/update', this.annonce)
-      //  this.$router.go(-1)
-      this.$router.push('/inbox')
-    },
-    goBack(){
-      this.$router.go(-1)
-    },
-    getState() {
-      return this.annonce.title.length > 0;
-    },
-    imagesUploaded(images){
-      console.log(images)
-      this.annonce.images = images
-    },
-    base64ToFile(dataURI, origFile) {
-      var byteString, mimestring;
-
-      if(dataURI.split(',')[0].indexOf('base64') !== -1 ) {
-        byteString = atob(dataURI.split(',')[1]);
-      } else {
-        byteString = decodeURI(dataURI.split(',')[1]);
-      }
-
-      mimestring = dataURI.split(',')[0].split(':')[1].split(';')[0];
-
-      var content = new Array();
-      for (var i = 0; i < byteString.length; i++) {
-        content[i] = byteString.charCodeAt(i);
-      }
-
-      var newFile = new File(
-        [new Uint8Array(content)], origFile.name, {type: mimestring}
-      );
-
-
-      // Copy props set by the dropzone in the original file
-
-      var origProps = [
-        "upload", "status", "previewElement", "previewTemplate", "accepted"
-      ];
-
-      origProps.forEach((p) => {
-        newFile[p] = origFile[p];
-      });
-
-      return newFile;
+    async init()    {
+      if(this.webId != null){
+      console.log(this.$route.params.id)
+      this.annonce = this.$route.params.id != undefined ?  this.annoncesMy.find(x => x.id === this.$route.params.id): new Annonce()
+      this.annonce.images == undefined ? this.annonce.images = [] : ""
+      let storage = await ldflex.data.user.storage
+      this.path = `${storage}`+'public/portfolio/'
     }
   },
-  computed:{
-    annoncesMy() {
-      return this.$store.state.annonce.annoncesMy
-    },
-    webId() {
-      return this.$store.state.solid.webId
-    },
+  // vfileAdded(file){
+  //   console.log(file)
+  // },
+  async vsuccess(file){
+    console.log(file)
+    //  this.files.push(file)
+
+    //  this.annonce.images = images
   },
+  verror(file){
+    console.log(file)
+  },
+  vremoved(file){
+    console.log(file)
+  },
+  async vsending1(file){
+    console.log(file)
+  },
+  async vsending(file){
+    console.log(file)
+    this.numberOfFiles--
+    try{
+      console.log("success", this.numberOfFiles,file)
+      let uri = encodeURI(this.path+file.name)
+      console.log(uri)
+
+      watermark([file])
+      .image(watermark.text.center(this.path, '30px Josefin Slab', '#fff', 0.8))
+      //.then(img => {
+      // img.name = f.name
+      // img.type = f.type
+      // img.width = "250"
+      // img.height = "250"
+      // preview.appendChild(img)});
+
+      //  !app.images.includes(uri) ? app.images.push(uri): ""
+      //  var file = dataURLtoFile(i.src,i.name);
+
+      await fc.createFile(uri, file, file.type)
+      this.annonce.images.push(uri)
+    }catch(e){
+      alert(e)
+    }
+  },
+  vsuccessMuliple(files){
+    console.log("MUILTIPLE SUCCESS",files)
+  },
+  vsendingMuliple(files){
+    console.log("MULTIPLE SENDING",files)
+  },
+  vqueueComplete(files){
+    console.log("QUEUE COMPLETE",files)
+  },
+  vfileAdded1(origFile) {
+    console.log(origFile)
+  },
+
+  vfileAdded(origFile) {
+    this.numberOfFiles++
+    //https://stackoverflow.com/questions/20533191/dropzone-js-client-side-image-resizing
+    let dropzone = this.$refs.myVueDropzone
+    //  console.log("DZ1", dropzone)
+    let app = this
+    var MAX_WIDTH  = 1024;
+    var MAX_HEIGHT = 768;
+
+    console.log("Orig",origFile)
+
+    var reader = new FileReader();
+
+    // Convert file to img
+
+    reader.addEventListener("load", function(event) {
+
+      var origImg = new Image();
+      origImg.src = event.target.result;
+
+      origImg.addEventListener("load", function(event) {
+
+        var width  = event.target.width;
+        var height = event.target.height;
+
+
+        // Don't resize if it's small enough
+
+        if (width <= MAX_WIDTH && height <= MAX_HEIGHT) {
+          // dropzone.enqueueFile(origFile);
+          //https://stackoverflow.com/questions/48225489/how-can-i-enqueue-a-file-manually-in-dropzone-vue-dropzone-2
+          dropzone.dropzone.enqueueFile(origFile)
+          return;
+        }
+
+
+        // Calc new dims otherwise
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+
+
+        // Resize
+        //  alert("resize")
+
+        var canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(origImg, 0, 0, width, height);
+
+        var resizedFile = app.base64ToFile(canvas.toDataURL(), origFile);
+
+        console.log("resized",resizedFile)
+
+        // Replace original with resized
+        console.log(dropzone)
+        var origFileIndex = dropzone.dropzone.files.indexOf(origFile);
+        dropzone.dropzone.files[origFileIndex] = resizedFile;
+
+
+        // Enqueue added file manually making it available for
+        // further processing by dropzone
+        //    console.log("DZ",dropzone)
+
+        //  dropzone.enqueueFile(resizedFile);
+        //https://stackoverflow.com/questions/48225489/how-can-i-enqueue-a-file-manually-in-dropzone-vue-dropzone-2
+        dropzone.dropzone.enqueueFile(resizedFile)
+      });
+    });
+
+    reader.readAsDataURL(origFile);
+  },
+
+
+
+  add() {
+    if (this.annonce.title.length < 1){
+      alert("Title must not be empty !")
+      return
+    }
+    console.log(this.annonce)
+    this.$store.dispatch('annonce/update', this.annonce)
+    //  this.$router.go(-1)
+    this.$router.push('/inbox')
+  },
+  goBack(){
+    this.$router.go(-1)
+  },
+  getState() {
+    return this.annonce.title.length > 0;
+  },
+  imagesUploaded(images){
+    console.log(images)
+    this.annonce.images = images
+  },
+  base64ToFile(dataURI, origFile) {
+    var byteString, mimestring;
+
+    if(dataURI.split(',')[0].indexOf('base64') !== -1 ) {
+      byteString = atob(dataURI.split(',')[1]);
+    } else {
+      byteString = decodeURI(dataURI.split(',')[1]);
+    }
+
+    mimestring = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+    var content = new Array();
+    for (var i = 0; i < byteString.length; i++) {
+      content[i] = byteString.charCodeAt(i);
+    }
+
+    var newFile = new File(
+      [new Uint8Array(content)], origFile.name, {type: mimestring}
+    );
+
+
+    // Copy props set by the dropzone in the original file
+
+    var origProps = [
+      "upload", "status", "previewElement", "previewTemplate", "accepted"
+    ];
+
+    origProps.forEach((p) => {
+      newFile[p] = origFile[p];
+    });
+
+    return newFile;
+  }
+},
+watch:{
+  webId(){
+    this.init()
+  }
+},
+computed:{
+  annoncesMy() {
+    return this.$store.state.annonce.annoncesMy
+  },
+  webId() {
+    return this.$store.state.solid.webId
+  },
+},
 }
 </script>
 

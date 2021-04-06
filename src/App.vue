@@ -4,8 +4,8 @@
       <b-navbar toggleable="lg" type="dark" variant="info">
         <b-navbar-brand to="/">Bon-Prix</b-navbar-brand>
 
-        <SolidLoginButton v-if="webId == null"/>
-        <b-button variant="warning" v-else to="/edit" title="Add an annonce">+ Add an annonce</b-button>
+        <SolidLoginButton v-if="webId == null" />
+        <b-button variant="warning" to="/edit" title="Add an annonce" size="sm">+ Add an annonce</b-button>
 
 
 
@@ -15,8 +15,8 @@
           <b-navbar-nav>
             <b-nav-item to="/">Home</b-nav-item>
 
-            <b-nav-item to="/my_annonces">My annonces</b-nav-item>
-            <b-nav-item to="/inbox">Inbox</b-nav-item>
+            <b-nav-item to="/my_annonces" v-if="webId != null">My annonces</b-nav-item>
+            <b-nav-item to="/inbox" v-if="webId != null">Inbox</b-nav-item>
             <b-nav-item to="/config">Config</b-nav-item>
             <b-nav-item to="/about">About</b-nav-item>
             <SolidLoginButton v-if="webId != null"/>

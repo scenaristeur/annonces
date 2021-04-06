@@ -2,10 +2,10 @@
   <div>
     <AnnonceSearch @searchChanged="searchChanged" />
     <b-list-group>
-      <AnnonceCard :annonce="a" v-for="a in list" :key="a.url" :search="search" />
+      <AnnonceCard :annonce="a" v-for="a in annonces" :key="a.url" :search="search" />
     </b-list-group>
 
-    <infinite-loading @infinite="infiniteHandler" :identifier="infiniteId"></infinite-loading>
+    <infinite-loading @infinite="infiniteHandler" :identifier="infiniteId" spinner="waveDots"></infinite-loading>
     <b-alert
     v-model="busy"
     class="position-fixed fixed-bottom rounded-3"
@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       page: 1,
-      list: [],
+      annonces: [],
       limite: null,
       search: "",
       infiniteId: +new Date(),
@@ -44,15 +44,23 @@ export default {
     };
   },
   created(){
+
     this.init()
   },
   methods: {
     init(){
+      console.log("todo : insert this.annoncesAll deja recupérées en cache")
+      //this.annonces.push(... this.annoncesAll)
+      // this.busy = true
+      // console.log("connues",this.annoncesAll)
+      //  this.annonces = this.annoncesAll
+      // this.busy = false
       this.limite = this.start != undefined ? new Date(this.start) : new Date("02/01/2021")
       this.date = new Date()
-      this.infiniteId += 1;
+        this.infiniteId += 1;
     },
     async infiniteHandler($state) {
+
       if (this.limite <= this.date ){
         this.busy = true
         let path = this.getPath()
@@ -60,9 +68,9 @@ export default {
         try{
           this.title = "loading "+this.date.toLocaleDateString()
           for await (const annonce_url of ldflex.data[resource]['http://purl.org/dc/terms/hasPart']){
-            let idx = this.list.findIndex(x => x.url === `${annonce_url}`)
+            let idx = this.annonces.findIndex(x => x.url === `${annonce_url}`)
             if (idx === -1) {
-              this.list.push({url: `${annonce_url}`})
+              this.annonces.push({url: `${annonce_url}`})
             }
           }
         }catch{
@@ -70,9 +78,10 @@ export default {
         }
         this.date.setDate(this.date.getDate() -1)
         //  let data = [{date: this.date}]
-        //  this.list.push(...data);
+        //  this.annonces.push(...data);
         $state.loaded();
         this.busy = false
+        this.$store.commit('annonce/setAnnoncesAll', this.annonces)
       }else{
         $state.complete();
       }
@@ -85,7 +94,7 @@ export default {
       //   console.log(data)
       //   if (data.hits.length) {
       //     this.page += 1;
-      //     this.list.push(...data.hits);
+      //     this.annonces.push(...data.hits);
       //     $state.loaded();
       //   } else {
       //     $state.complete();
@@ -96,7 +105,8 @@ export default {
     },
     searchChanged(s){
       this.search = s
-      this.list = []
+      console.log(s)
+      this.annonces = []
       this.init()
 
     },
@@ -113,6 +123,12 @@ export default {
         solid: true
       })
     },
+  },
+  computed:{
+    annoncesAll: {
+      get () { return this.$store.state.annonce.annoncesAll},
+      set () {  }
+    }
   },
 }
 </script>

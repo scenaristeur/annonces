@@ -192,6 +192,14 @@ const mutations = {
   },
   setAgoraUrl(state, url){
     state.agora_url = url
+  },
+  setAnnoncesAll(state, annonces){
+    console.log(annonces)
+    state.annoncesAll = annonces
+  },
+  updateAnnoncesAll(state, a){
+    let idx = state.annoncesAll.findIndex(x => x.url === a.url)
+    Object.assign(state.annoncesAll[idx], a);
   }
 }
 

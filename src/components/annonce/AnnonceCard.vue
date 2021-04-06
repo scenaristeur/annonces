@@ -92,23 +92,60 @@ export default {
     }
   },
   async created(){
-    let aText = await fc.readFile(this.annonce.url)
-    if (aText.includes(this.search)){
-      this.show = true
-      this.a = JSON.parse(aText)
-      this.a.image = this.a.images[0] || "" //"https://picsum.photos/400/200/?image=41"
-      this.a.date = this.a.modified.pop() || this.a.created
-    }else{
-      this.show = false
-    }
+
+    this.init()
+
   },
   methods: {
+
+    async  init(){
+      this.idx = this.annoncesAll.findIndex(x => x.url === this.annonce.url)
+      if (this.idx === -1) {
+        console.log("ohoh, not found ???",)
+        //  this.annonces.push({url: `${annonce_url}`})
+      }else{
+        console.log(this.idx)
+        //  console.log("found",this.annoncesAll[idx])
+        this.a = this.annoncesAll[this.idx]
+        console.log(this.a)
+        if (this.a.title == undefined){
+          await  this.fetchAnnonce()
+          await this.updateAnnoncesAll()
+        }
+
+      }
+    },
+
+    async fetchAnnonce(){
+      let aText = await fc.readFile(this.annonce.url)
+      if (aText.includes(this.search)){
+        this.show = true
+        this.a = JSON.parse(aText)
+        this.a.image = this.a.images[0] || "" //"https://picsum.photos/400/200/?image=41"
+        this.a.date = this.a.modified.pop() || this.a.created
+        //  console.log(this.a)
+      }else{
+        this.show = false
+      }
+    },
+    async updateAnnoncesAll(){
+      console.log("updateAll", this.a)
+        this.$store.commit('annonce/updateAnnoncesAll', this.a)
+    },
+
+
     showDetails() {
       //this.$router.push('/add')
       console.log(this.a.id)
       this.$router.push({ name: 'Detail', query: { url: this.a.url } })
     },
-  }
+  },
+  computed:{
+    annoncesAll: {
+      get () { return this.$store.state.annonce.annoncesAll},
+      set () {  }
+    }
+  },
 }
 </script>
 
