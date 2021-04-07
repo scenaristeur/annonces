@@ -57,7 +57,7 @@ export default {
       // this.busy = false
       this.limite = this.start != undefined ? new Date(this.start) : new Date("02/01/2021")
       this.date = new Date()
-        this.infiniteId += 1;
+      this.infiniteId += 1;
     },
     async infiniteHandler($state) {
 

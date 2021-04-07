@@ -194,7 +194,6 @@ const mutations = {
     state.agora_url = url
   },
   setAnnoncesAll(state, annonces){
-    console.log(annonces)
     state.annoncesAll = annonces
   },
   updateAnnoncesAll(state, a){
